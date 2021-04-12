@@ -1,0 +1,5 @@
+homepage: "https://piwik.pro/"
+documentation: "https://help.piwik.pro/"
+versions:
+  - sha: 2abe77c1a423cf0110531ef27b5aecf0eba91883
+    changeNotes: Initial release.
