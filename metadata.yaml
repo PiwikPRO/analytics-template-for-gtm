@@ -1,5 +1,9 @@
 homepage: "https://piwik.pro/"
 documentation: "https://help.piwik.pro/"
 versions:
+  # Latest version
+  - sha: ca3be5c95ee5347f79c5d75d50cf6f2ba35f022e
+    changeNotes: UX improvements.
+  # First version
   - sha: 2abe77c1a423cf0110531ef27b5aecf0eba91883
     changeNotes: Initial release.
