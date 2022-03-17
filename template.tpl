@@ -35,10 +35,10 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "TEXT",
     "name": "instanceURL",
-    "displayName": "Instance URL",
+    "displayName": "Account adress",
     "simpleValueType": true,
     "valueHint": "https://example.piwik.pro/",
-    "help": "The address of your Piwik PRO Analytics Suite account.",
+    "help": "Your account address in Piwik PRO.",
     "valueValidators": [
       {
         "type": "REGEX",
@@ -84,11 +84,11 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "TEXT",
     "name": "analyticsDomains",
-    "displayName": "Analytics domains",
+    "displayName": "Site or app address",
     "simpleValueType": true,
     "textAsList": true,
     "lineCount": 2,
-    "help": "The domains tracked by Piwik PRO Analytics code. You can add many URLs. They need to start with \"http://\" or \"https://\". Please specify one domain per line (without commas).",
+    "help": "You\u0027ll collect data for this site or app. Enter a full URL like https://example.com. You can add more URLs if you track a few sites with the same tracking code. Separate with the enter key. No commas.",
     "valueHint": "https://example.com",
     "valueValidators": [
       {
@@ -448,6 +448,9 @@ if (data.useAlternativeNamespace == true) {
 // Sending tracking code options from values set in template input fields
 // Analytics domains
 _pp(['setDomains', data.analyticsDomains]);
+
+// Set the tracking source as Google Tag Manager
+_pp(['setTrackingSource', 'gtm', '1.0.2']);
 
 // Link tracking
 if (data.enableLinkTracking == true) {
