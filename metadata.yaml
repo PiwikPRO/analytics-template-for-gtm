@@ -2,6 +2,9 @@ homepage: "https://piwik.pro/"
 documentation: "https://help.piwik.pro/"
 versions:
   # Latest version
+  - sha: 3d051c5c8605fad270cc1b311b1024f3e2925000
+    changeNotes: Improved backwards compatibility with older product versions (<16.0).
+  # Third version
   - sha: 0205cc5e4bfbe532eac95da5bd1e21d8b744f00d
     changeNotes: Added the ability to recognize Google Tag Manager as a traffic source in Tracker debugger.
   # Second version
