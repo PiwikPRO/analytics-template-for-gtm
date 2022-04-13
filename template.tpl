@@ -229,6 +229,13 @@ ___TEMPLATE_PARAMETERS___
             "errorMessage": "Please provide a valid URL. It can contain wildcards."
           }
         ]
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "setTrackingSource",
+        "checkboxText": "Send the traffic source to the tracker debugger",
+        "simpleValueType": true,
+        "help": "If checked, you\u0027ll see Google Tag Manager as a traffic source in Piwik PRO \u003e Analytics \u003e Settings \u003e Tracker debugger. (Available for 16.12+)"
       }
     ]
   },
@@ -449,8 +456,10 @@ if (data.useAlternativeNamespace == true) {
 // Analytics domains
 _pp(['setDomains', data.analyticsDomains]);
 
-// Set the tracking source as Google Tag Manager
-_pp(['setTrackingSource', 'gtm', '1.0.2']);
+// Traffic source tracking
+if (data.setTrackingSource == true) {
+  _pp(['setTrackingSource', 'gtm', '1.0.3']);
+}
 
 // Link tracking
 if (data.enableLinkTracking == true) {
