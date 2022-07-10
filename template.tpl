@@ -1097,6 +1097,25 @@ ___TEMPLATE_PARAMETERS___
             "type": "EQUALS"
           }
         ]
+      },
+      {
+        "type": "SELECT",
+        "name": "setSessionIdStrictPrivacyMode",
+        "displayName": "Enable Strict Privacy Mode",
+        "macrosInSelect": true,
+        "selectItems": [
+          {
+            "value": true,
+            "displayValue": "true"
+          },
+          {
+            "value": false,
+            "displayValue": "false"
+          }
+        ],
+        "simpleValueType": true,
+        "defaultValue": false,
+        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.)."
       }
     ]
   },
@@ -1213,6 +1232,8 @@ if (data.setUserID == true) {
   _pp(['setUserId', userId]);
 }
 
+// Setting the strict privacy option
+_pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true)]);
 
 /********************
   Tag Type Handling
@@ -1522,5 +1543,3 @@ setup: |-
 
 
 ___NOTES___
-
-Created on 3/18/2021, 11:09:32 AM
