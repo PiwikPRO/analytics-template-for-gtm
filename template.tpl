@@ -1239,6 +1239,9 @@ _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == tru
   Tag Type Handling
 ********************/
 
+//prevent missing type from updated tags
+data.trackingType = data.trackingType || "pageview";
+
 if (data.trackingType == 'event') {
 
   //custom events
