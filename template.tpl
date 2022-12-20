@@ -88,26 +88,15 @@ ___TEMPLATE_PARAMETERS___
     "simpleValueType": true,
     "textAsList": true,
     "lineCount": 2,
-    "help": "You\u0027ll collect data for this site or app. Enter a full URL like https://example.com. You can add more URLs if you track a few sites with the same tracking code. Separate with the enter key. No commas.",
+    "help": "You\u0027ll collect data for this site or app. Enter a full URL like https://example.com. You can add more URLs if you track a few sites with the same tracking code. Separate with the enter key. No commas. Leave blank if you want to keep the default setting from your account.",
     "valueHint": "https://example.com",
     "valueValidators": [
       {
-        "type": "NON_EMPTY",
-        "errorMessage": "Please enter one or more full URLs"
-      },
-      {
-        "type": "TABLE_ROW_COUNT",
-        "args": [
-          1,
-          32
-        ]
-      },
-      {
         "type": "REGEX",
         "args": [
-          "^https?://.*"
+          "^($|(https?://.*))"
         ],
-        "errorMessage": "The domains need to start with http:// or https://",
+        "errorMessage": "The domains need to start with http:// or https:// (or leave field blank)",
         "enablingConditions": []
       },
       {
@@ -1546,3 +1535,5 @@ setup: |-
 
 
 ___NOTES___
+
+Created on 20.12.2022, 02:09:17
