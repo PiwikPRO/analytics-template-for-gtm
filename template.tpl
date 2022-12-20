@@ -1197,7 +1197,8 @@ if (data.setReferralCookieTimeout == true) {
 ********************/
 
 // Analytics domains
-_pp(['setDomains', data.analyticsDomains]);
+if (data.analyticsDomains && data.analyticsDomains !== "")
+  _pp(['setDomains', data.analyticsDomains]);
 
 
 // Cross-domain tracking
@@ -1536,4 +1537,4 @@ setup: |-
 
 ___NOTES___
 
-Created on 20.12.2022, 02:09:17
+Created on 20.12.2022, 02:32:44
