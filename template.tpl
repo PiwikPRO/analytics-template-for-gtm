@@ -1129,6 +1129,77 @@ ___TEMPLATE_PARAMETERS___
         "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
       }
     ]
+  },
+  {
+    "type": "GROUP",
+    "name": "globalOrHitDimensions",
+    "displayName": "Custom Dimensions",
+    "groupStyle": "ZIPPY_OPEN_ON_PARAM",
+    "subParams": [
+      {
+        "type": "SIMPLE_TABLE",
+        "name": "customDimTable",
+        "displayName": "",
+        "simpleTableColumns": [
+          {
+            "defaultValue": "",
+            "displayName": "Dimension ID",
+            "name": "dimSlot",
+            "type": "TEXT",
+            "isUnique": true,
+            "valueValidators": [
+              {
+                "type": "POSITIVE_NUMBER"
+              }
+            ]
+          },
+          {
+            "defaultValue": "",
+            "displayName": "Dimension Value",
+            "name": "dimValue",
+            "type": "TEXT",
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ]
+          }
+        ],
+        "help": "Custom Dimensions to set (optional)"
+      }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "paramValue": "pageview",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "init",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "goal",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "event",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "search",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "link",
+        "type": "EQUALS"
+      }
+    ]
   }
 ]
 
@@ -1144,6 +1215,18 @@ const onSuccess = () => {
   log('Piwik PRO Analytics loaded successfully.');
   data.gtmOnSuccess();
 };
+
+
+const buildDimensionsObject = () => {
+  if (data.customDimTable && data.customDimTable.length > 0) {
+    var rs = {};
+    data.customDimTable.forEach(x => {
+      rs["dimension"+x.dimSlot] = x.dimValue;
+    });
+    return rs;
+  }
+};
+
 
 const onFailure = () => {
   log('Piwik PRO Analytics failed to load.');
@@ -1235,12 +1318,12 @@ data.trackingType = data.trackingType || "pageview";
 if (data.trackingType == 'event') {
 
   //custom events
-  _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue]);
+  _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue, buildDimensionsObject()]);
 
 } else if (data.trackingType == 'goal') {
 
   //track goal and optional revenue
-  _pp(['trackGoal', data.goalId, data.conversionValue]);
+  _pp(['trackGoal', data.goalId, data.conversionValue, buildDimensionsObject()]);
 
 } else if (data.trackingType == 'ecom') {
 
@@ -1265,7 +1348,7 @@ if (data.trackingType == 'event') {
 } else if (data.trackingType == 'search') {
 
   //track site search
-  _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount]);
+  _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount, buildDimensionsObject()]);
 
 } else if (data.trackingType == 'impression') {
 
@@ -1283,7 +1366,7 @@ if (data.trackingType == 'event') {
 } else if (data.trackingType == 'link') {
 
   //track links
-  _pp(['trackLink', data.linkAddress, data.linkType]);
+  _pp(['trackLink', data.linkAddress, data.linkType, buildDimensionsObject()]);
   
   
 } else if (data.trackingType == 'virtual') {
@@ -1304,13 +1387,21 @@ if (data.trackingType == 'event') {
 
 } else {
   
-  //init only or pageview   
-  
+  //init only or pageview
+    
   // Link tracking
   if (data.enableLinkTracking == true) {
     _pp(["enableLinkTracking"]);
   }
 
+  //init global custom dimensions?
+  log('TMP: DIMS_ '+ data.customDimTable.length);
+  if (data.customDimTable && data.customDimTable.length > 0) {
+    data.customDimTable.forEach(x => {
+      _pp(['setCustomDimensionValue', x.dimSlot, x.dimValue]);
+    });
+  }  
+  
   // Content tracking - track all impressions or only visible impressions
   if (data.enableContentTracking == true) {
     if (data.contentTrackingOptions === "trackAllContentImpressions") {
