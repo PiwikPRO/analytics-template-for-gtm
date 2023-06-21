@@ -1395,7 +1395,6 @@ if (data.trackingType == 'event') {
   }
 
   //init global custom dimensions?
-  log('TMP: DIMS_ '+ data.customDimTable.length);
   if (data.customDimTable && data.customDimTable.length > 0) {
     data.customDimTable.forEach(x => {
       _pp(['setCustomDimensionValue', x.dimSlot, x.dimValue]);
