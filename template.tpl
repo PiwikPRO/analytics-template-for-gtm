@@ -88,17 +88,9 @@ ___TEMPLATE_PARAMETERS___
     "simpleValueType": true,
     "textAsList": true,
     "lineCount": 2,
-    "help": "You\u0027ll collect data for this site or app. Enter a full URL like https://example.com. You can add more URLs if you track a few sites with the same tracking code. Separate with the enter key. No commas. Leave blank if you want to keep the default setting from your account.",
-    "valueHint": "https://example.com",
+    "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more URLs if you track multiple sites with the same tracking code. Separate with the enter key. No commas, no \"https://\". Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
+    "valueHint": "example.com",
     "valueValidators": [
-      {
-        "type": "REGEX",
-        "args": [
-          "^($|(https?://.*))"
-        ],
-        "errorMessage": "The domains need to start with http:// or https:// (or leave field blank)",
-        "enablingConditions": []
-      },
       {
         "type": "REGEX",
         "args": [
@@ -932,6 +924,61 @@ ___TEMPLATE_PARAMETERS___
     ]
   },
   {
+    "type": "PARAM_TABLE",
+    "name": "eventDimensions",
+    "displayName": "Event scoped dimensions (optional)",
+    "paramTableColumns": [
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "dimensionId",
+          "displayName": "Dimension ID",
+          "simpleValueType": true,
+          "valueValidators": [
+            {
+              "type": "POSITIVE_NUMBER"
+            },
+            {
+              "type": "NON_EMPTY"
+            }
+          ]
+        },
+        "isUnique": true
+      },
+      {
+        "param": {
+          "type": "TEXT",
+          "name": "dimensionValue",
+          "displayName": "Dimension value",
+          "simpleValueType": true
+        },
+        "isUnique": false
+      }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "paramValue": "event",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "search",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "goal",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "link",
+        "type": "EQUALS"
+      }
+    ]
+  },
+  {
     "type": "GROUP",
     "name": "dataCollectionSettings",
     "displayName": "Data collection",
@@ -1242,6 +1289,14 @@ ___TEMPLATE_PARAMETERS___
     "subParams": [
       {
         "type": "CHECKBOX",
+        "name": "processExistingQueue",
+        "checkboxText": "Process commands in queue",
+        "simpleValueType": true,
+        "help": "Process commands already in queue (_pas / _ppms) when initializing this tag.",
+        "defaultValue": false
+      },
+      {
+        "type": "CHECKBOX",
         "name": "enableJSErrorTracking",
         "checkboxText": "Detect JavaScript errors",
         "simpleValueType": true,
@@ -1253,6 +1308,36 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Use an alternative namespace",
         "simpleValueType": true,
         "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
+      },
+      {
+        "type": "TEXT",
+        "name": "customTrackerUrl",
+        "displayName": "Use custom tracker URL",
+        "simpleValueType": true,
+        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)",
+        "valueValidators": [
+          {
+            "type": "REGEX",
+            "args": [
+              "^https://.+"
+            ],
+            "errorMessage": "Enter a valid URL"
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "name": "customEventUrl",
+        "displayName": "Override event URL",
+        "simpleValueType": true,
+        "help": "Optionally define a custom URL to be tracked with this tag"
+      },
+      {
+        "type": "TEXT",
+        "name": "customEventTitle",
+        "displayName": "Custom document title",
+        "simpleValueType": true,
+        "help": "Overwrite document title. This and all events afterwards will use the provided document title."
       }
     ]
   }
@@ -1266,6 +1351,7 @@ const createQueue = require('createQueue');
 const injectScript = require('injectScript');
 const getType = require('getType');
 const copyFromDataLayer = require('copyFromDataLayer');
+const copyFromWindow = require('copyFromWindow');
 
 // onSuccess, onFailure for launching the tracking code
 const onSuccess = () => {
@@ -1279,16 +1365,24 @@ const onFailure = () => {
 };
 
 // Initialize tracker objects, Piwik PRO Analytics queue
-let _pp, jsTracker;
+let _pp, jsTracker, 
+    existingQueue, processExisting = data.processExistingQueue === true;
 
 if (data.useAlternativeNamespace == true) {
+  existingQueue = copyFromWindow('_ppas');
   _pp = createQueue('_ppas');
   jsTracker = data.instanceURL + "ppas.js";
 } else {
+  existingQueue = copyFromWindow('_paq');
   _pp = createQueue('_paq');
   jsTracker = data.instanceURL + "ppms.js";
 }
 
+//process existing commands in the queue if option checked
+if (processExisting === true && existingQueue)
+  for (const item of existingQueue) {
+    _pp(item);
+  }
 
 /********************
   Cookie Handling
@@ -1324,10 +1418,21 @@ if (data.setReferralCookieTimeout == true) {
   Settings & Options
 ********************/
 
+// Custom tracker URL
+if (data.customTrackerUrl && data.customTrackerUrl !== "")
+  _pp(['setTrackerUrl', data.customTrackerUrl]);
+
+// Custom page / event URL
+if (data.customEventUrl && data.customEventUrl !== "")
+  _pp(['setCustomUrl', data.customEventUrl]);
+
+// Custom page title
+if (data.customEventTitle && data.customEventTitle !== "")
+  _pp(['setDocumentTitle', data.customEventTitle]);
+
 // Analytics domains
 if (data.analyticsDomains && data.analyticsDomains !== "")
   _pp(['setDomains', data.analyticsDomains]);
-
 
 // Cross-domain tracking
 if (data.enableCrossDomainLinking == true) {
@@ -1360,15 +1465,20 @@ _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == tru
 //prevent missing type from updated tags
 data.trackingType = data.trackingType || "pageview";
 
+var eventDimensions = {};
+if (data.eventDimensions) data.eventDimensions.forEach(d => {
+  if (d.dimensionValue) eventDimensions["dimension" + d.dimensionId] = d.dimensionValue; 
+});
+
 if (data.trackingType == 'event') {
 
   //custom events
-  _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue]);
+  _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue, eventDimensions]);
 
 } else if (data.trackingType == 'goal') {
 
   //track goal and optional revenue
-  _pp(['trackGoal', data.goalId, data.conversionValue]);
+  _pp(['trackGoal', data.goalId, data.conversionValue, eventDimensions]);
 
 } else if (data.trackingType == 'ecom') {
    
@@ -1463,7 +1573,7 @@ if (data.trackingType == 'event') {
     });         
   }
   
-  //ecommerce
+  //ecommerce events by type
   switch (ecType) {
     case 'ecommerceProductDetailView':_pp(['ecommerceProductDetailView', ecProducts]); break;
     case 'ecommerceAddToCart':_pp(['ecommerceAddToCart', ecProducts]); break;
@@ -1485,7 +1595,7 @@ if (data.trackingType == 'event') {
 } else if (data.trackingType == 'search') {
 
   //track site search
-  _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount]);
+  _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount, eventDimensions]);
 
 } else if (data.trackingType == 'impression') {
 
@@ -1503,7 +1613,7 @@ if (data.trackingType == 'event') {
 } else if (data.trackingType == 'link') {
 
   //track links
-  _pp(['trackLink', data.linkAddress, data.linkType]);
+  _pp(['trackLink', data.linkAddress, data.linkType, eventDimensions]);
   
   
 } else if (data.trackingType == 'virtual') {
@@ -1833,4 +1943,4 @@ setup: |-
 
 ___NOTES___
 
-Created on 14.6.2024, 18:06:36
+Created on 14.6.2024, 21:04:00
