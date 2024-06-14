@@ -251,186 +251,312 @@ ___TEMPLATE_PARAMETERS___
         "macrosInSelect": false,
         "selectItems": [
           {
-            "value": "setEcommerceView",
-            "displayValue": "Product View"
+            "value": "ecommerceAutoDetect",
+            "displayValue": "Auto detect from dataLayer event"
           },
           {
-            "value": "addEcommerceItem",
-            "displayValue": "Add Item"
+            "value": "ecommerceProductDetailView",
+            "displayValue": "Product Detail View"
           },
           {
-            "value": "removeEcommerceItem",
-            "displayValue": "Remove Item"
+            "value": "ecommerceAddToCart",
+            "displayValue": "Add To Cart"
           },
           {
-            "value": "clearEcommerceCart",
-            "displayValue": "Clear cart"
+            "value": "ecommerceRemoveFromCart",
+            "displayValue": "Remove From Cart"
           },
           {
-            "value": "trackEcommerceOrder",
+            "value": "ecommerceCartUpdate",
+            "displayValue": "Cart Update"
+          },
+          {
+            "value": "ecommerceOrder",
             "displayValue": "Order"
           }
         ],
-        "simpleValueType": true
+        "simpleValueType": true,
+        "defaultValue": "ecommerceAutoDetect"
+      },
+      {
+        "type": "TEXT",
+        "name": "ecommerceUpdateTotal",
+        "displayName": "Grand total (cart update)",
+        "simpleValueType": true,
+        "enablingConditions": [
+          {
+            "paramName": "ecomType",
+            "paramValue": "ecommerceCartUpdate",
+            "type": "EQUALS"
+          }
+        ]
       },
       {
         "type": "GROUP",
-        "name": "productData",
-        "displayName": "",
+        "name": "ecommerceProductDefinition",
+        "displayName": "Product data",
+        "groupStyle": "NO_ZIPPY",
+        "subParams": [
+          {
+            "type": "SELECT",
+            "name": "ecommerceProductType",
+            "displayName": "Product data source",
+            "macrosInSelect": false,
+            "selectItems": [
+              {
+                "value": "array",
+                "displayValue": "Products array"
+              },
+              {
+                "value": "single",
+                "displayValue": "Single Product"
+              }
+            ],
+            "simpleValueType": true,
+            "defaultValue": "array"
+          },
+          {
+            "type": "TEXT",
+            "name": "productsArray",
+            "displayName": "Products array source",
+            "simpleValueType": true,
+            "help": "Enter a JS or dataLayer variable that contains an array of product objects and map field names",
+            "enablingConditions": [
+              {
+                "paramName": "ecommerceProductType",
+                "paramValue": "array",
+                "type": "EQUALS"
+              }
+            ],
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "productsArrayMapping",
+            "displayName": "Product data mapping",
+            "groupStyle": "NO_ZIPPY",
+            "subParams": [
+              {
+                "type": "TEXT",
+                "name": "productSKUKey",
+                "displayName": "Product SKU key",
+                "simpleValueType": true,
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  }
+                ],
+                "defaultValue": "item_id"
+              },
+              {
+                "type": "TEXT",
+                "name": "productNameKey",
+                "displayName": "Product name key",
+                "simpleValueType": true,
+                "defaultValue": "item_name"
+              },
+              {
+                "type": "TEXT",
+                "name": "productCategoryKey",
+                "displayName": "Product category key",
+                "simpleValueType": true,
+                "defaultValue": "item_category"
+              },
+              {
+                "type": "TEXT",
+                "name": "productPriceKey",
+                "displayName": "Product price key",
+                "simpleValueType": true,
+                "defaultValue": "price"
+              },
+              {
+                "type": "TEXT",
+                "name": "productQuantityKey",
+                "displayName": "Product quantity key",
+                "simpleValueType": true,
+                "defaultValue": "quantity"
+              },
+              {
+                "type": "TEXT",
+                "name": "productBrandKey",
+                "displayName": "Product brand key",
+                "simpleValueType": true,
+                "defaultValue": "item_brand"
+              },
+              {
+                "type": "TEXT",
+                "name": "productVariantKey",
+                "displayName": "Product variant key",
+                "simpleValueType": true,
+                "defaultValue": "item_variant"
+              },
+              {
+                "type": "TEXT",
+                "name": "productDimensionsKey",
+                "displayName": "Product custom dimensions key",
+                "simpleValueType": true,
+                "help": "Note: additional dimensions must be set in the following format: {1: \u0027value1\u0027, 2: \u0027value2\u0027 }, where numbers match the dimension´s IDs"
+              }
+            ],
+            "enablingConditions": [
+              {
+                "paramName": "ecommerceProductType",
+                "paramValue": "array",
+                "type": "EQUALS"
+              }
+            ],
+            "help": "Define keys for the following attributes in your products array. This tag will map the values to the Piwik PRO ecommerce scheme."
+          },
+          {
+            "type": "GROUP",
+            "name": "singleProductData",
+            "displayName": "Single product data",
+            "groupStyle": "NO_ZIPPY",
+            "subParams": [
+              {
+                "type": "TEXT",
+                "name": "productSKU",
+                "displayName": "Product SKU",
+                "simpleValueType": true,
+                "valueValidators": [
+                  {
+                    "type": "NON_EMPTY"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "name": "productName",
+                "displayName": "Product name",
+                "simpleValueType": true
+              },
+              {
+                "type": "TEXT",
+                "name": "productCategory",
+                "displayName": "Product category",
+                "simpleValueType": true
+              },
+              {
+                "type": "TEXT",
+                "name": "productPrice",
+                "displayName": "Product price",
+                "simpleValueType": true,
+                "enablingConditions": []
+              },
+              {
+                "type": "TEXT",
+                "name": "productQuantity",
+                "displayName": "Product quantity",
+                "simpleValueType": true
+              },
+              {
+                "type": "TEXT",
+                "name": "productBrand",
+                "displayName": "Product brand",
+                "simpleValueType": true
+              },
+              {
+                "type": "TEXT",
+                "name": "productVariant",
+                "displayName": "Product variant",
+                "simpleValueType": true
+              },
+              {
+                "type": "TEXT",
+                "name": "productDimensions",
+                "displayName": "Product custom dimensions",
+                "simpleValueType": true,
+                "help": "Note: additional dimensions must be set in the following format: {1: \u0027value1\u0027, 2: \u0027value2\u0027 }, where numbers match the dimension´s IDs"
+              }
+            ],
+            "enablingConditions": [
+              {
+                "paramName": "ecommerceProductType",
+                "paramValue": "single",
+                "type": "EQUALS"
+              }
+            ]
+          }
+        ],
+        "enablingConditions": [
+          {
+            "paramName": "ecomType",
+            "paramValue": "ecommerceAutoDetect",
+            "type": "NOT_EQUALS"
+          }
+        ]
+      },
+      {
+        "type": "GROUP",
+        "name": "ecommercePaymentInformation",
+        "displayName": "Payment information",
         "groupStyle": "NO_ZIPPY",
         "subParams": [
           {
             "type": "TEXT",
-            "name": "productSKU",
-            "displayName": "Product SKU",
+            "name": "orderId",
+            "displayName": "Order ID",
             "simpleValueType": true,
-            "enablingConditions": [
+            "enablingConditions": [],
+            "valueValidators": [
               {
-                "paramName": "ecomType",
-                "paramValue": "trackEcommerceOrder",
-                "type": "NOT_EQUALS"
+                "type": "NON_EMPTY"
               }
             ]
           },
           {
             "type": "TEXT",
-            "name": "productName",
-            "displayName": "Product name",
+            "name": "grandTotal",
+            "displayName": "Grand total",
             "simpleValueType": true,
-            "enablingConditions": [
+            "enablingConditions": [],
+            "valueValidators": [
               {
-                "paramName": "ecomType",
-                "paramValue": "trackEcommerceOrder",
-                "type": "NOT_EQUALS"
+                "type": "NON_EMPTY"
               }
             ]
           },
           {
             "type": "TEXT",
-            "name": "productCategory",
-            "displayName": "Product category",
+            "name": "subTotal",
+            "displayName": "Sub Total",
             "simpleValueType": true,
-            "enablingConditions": [
-              {
-                "paramName": "ecomType",
-                "paramValue": "trackEcommerceOrder",
-                "type": "NOT_EQUALS"
-              }
-            ]
+            "enablingConditions": []
           },
           {
             "type": "TEXT",
-            "name": "productPrice",
-            "displayName": "Product price",
+            "name": "tax",
+            "displayName": "Tax",
             "simpleValueType": true,
-            "enablingConditions": [
-              {
-                "paramName": "ecomType",
-                "paramValue": "trackEcommerceOrder",
-                "type": "NOT_EQUALS"
-              }
-            ]
+            "enablingConditions": []
+          },
+          {
+            "type": "TEXT",
+            "name": "shipping",
+            "displayName": "Shipping",
+            "simpleValueType": true,
+            "enablingConditions": []
+          },
+          {
+            "type": "TEXT",
+            "name": "discount",
+            "displayName": "Discount",
+            "simpleValueType": true,
+            "enablingConditions": [],
+            "defaultValue": ""
           }
         ],
         "enablingConditions": [
           {
             "paramName": "ecomType",
-            "paramValue": "clearEcommerceCart",
-            "type": "NOT_EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "quantity",
-        "displayName": "Product quantity",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "addEcommerceItem",
+            "paramValue": "ecommerceOrder",
             "type": "EQUALS"
           }
         ]
-      },
-      {
-        "type": "TEXT",
-        "name": "orderId",
-        "displayName": "Order ID",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "trackEcommerceOrder",
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "grandTotal",
-        "displayName": "Grand total",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "setEcommerceView",
-            "type": "NOT_EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "subTotal",
-        "displayName": "Sub Total",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "trackEcommerceOrder",
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "tax",
-        "displayName": "Tax",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "trackEcommerceOrder",
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "shipping",
-        "displayName": "Shipping",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "trackEcommerceOrder",
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "discount",
-        "displayName": "Discount",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "trackEcommerceOrder",
-            "type": "EQUALS"
-          }
-        ],
-        "defaultValue": false
       }
     ],
     "enablingConditions": [
@@ -1129,77 +1255,6 @@ ___TEMPLATE_PARAMETERS___
         "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
       }
     ]
-  },
-  {
-    "type": "GROUP",
-    "name": "globalOrHitDimensions",
-    "displayName": "Custom Dimensions",
-    "groupStyle": "ZIPPY_OPEN_ON_PARAM",
-    "subParams": [
-      {
-        "type": "SIMPLE_TABLE",
-        "name": "customDimTable",
-        "displayName": "",
-        "simpleTableColumns": [
-          {
-            "defaultValue": "",
-            "displayName": "Dimension ID",
-            "name": "dimSlot",
-            "type": "TEXT",
-            "isUnique": true,
-            "valueValidators": [
-              {
-                "type": "POSITIVE_NUMBER"
-              }
-            ]
-          },
-          {
-            "defaultValue": "",
-            "displayName": "Dimension Value",
-            "name": "dimValue",
-            "type": "TEXT",
-            "valueValidators": [
-              {
-                "type": "NON_EMPTY"
-              }
-            ]
-          }
-        ],
-        "help": "Custom Dimensions to set (optional)"
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "pageview",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "init",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "goal",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "event",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "search",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "link",
-        "type": "EQUALS"
-      }
-    ]
   }
 ]
 
@@ -1209,24 +1264,14 @@ ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 const log = require('logToConsole');
 const createQueue = require('createQueue');
 const injectScript = require('injectScript');
+const getType = require('getType');
+const copyFromDataLayer = require('copyFromDataLayer');
 
 // onSuccess, onFailure for launching the tracking code
 const onSuccess = () => {
   log('Piwik PRO Analytics loaded successfully.');
   data.gtmOnSuccess();
 };
-
-
-const buildDimensionsObject = () => {
-  if (data.customDimTable && data.customDimTable.length > 0) {
-    var rs = {};
-    data.customDimTable.forEach(x => {
-      rs["dimension"+x.dimSlot] = x.dimValue;
-    });
-    return rs;
-  }
-};
-
 
 const onFailure = () => {
   log('Piwik PRO Analytics failed to load.');
@@ -1318,37 +1363,129 @@ data.trackingType = data.trackingType || "pageview";
 if (data.trackingType == 'event') {
 
   //custom events
-  _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue, buildDimensionsObject()]);
+  _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue]);
 
 } else if (data.trackingType == 'goal') {
 
   //track goal and optional revenue
-  _pp(['trackGoal', data.goalId, data.conversionValue, buildDimensionsObject()]);
+  _pp(['trackGoal', data.goalId, data.conversionValue]);
 
 } else if (data.trackingType == 'ecom') {
-
-  //ecommerce
-  if (data.ecommerceTrackingCategory == 'setEcommerceView') {
-    _pp(['setEcommerceView', data.productSKU, data.productName, data.productCategory, data.productPrice]);
-  } else if (data.ecommerceTrackingCategory == 'addEcommerceItem') {
-    _pp(['addEcommerceItem', data.productSKU, data.productName, data.productCategory, data.ProductPrice, data.quantity]);
-  } else if (data.ecommerceTrackingCategory == 'removeEcommerceItem') {
-    _pp(['removeEcommerceItem', data.productSKU]);
-  } else if (data.ecommerceTrackingCategory == 'clearEcommerceCart') {
-    _pp(['clearEcommerceCart']);
-  } else if (data.ecommerceTrackingCategory == 'trackEcommerceOrder') {
-    _pp(['trackEcommerceOrder', data.orderId, data.grandTotal, data.subTotal, data.tax, data.shipping, data.discount]);
-  } 
+   
+  var ecProducts = [],
+      ecPaymentData,
+      ecType = data.ecomType;
   
-  //update cart
-  if (data.grandTotal || data.grandTotal == 0) {
-    _pp(['trackEcommerceCartUpdate', data.grandTotal]);
-  }  
+  //detect type from dataLayer? 
+  if (ecType === "ecommerceAutoDetect") {
+    const dlEcommerce = copyFromDataLayer('ecommerce', 1);
+    const currentEventName = copyFromDataLayer('event');
+    switch (currentEventName) {
+      case 'view_item': ecType = "ecommerceProductDetailView"; break;
+      case 'add_to_cart': ecType = "ecommerceAddToCart"; break;
+      case 'remove_from_cart': ecType = "ecommerceRemoveFromCart"; break;
+      case 'purchase': ecType = "ecommerceOrder"; break;
+      default: log('Piwik PRO Analytics failed to detect ecommerce event.'); break;
+    }
+    
+    var convProducts;
+    if (dlEcommerce.items) convProducts = dlEcommerce.items;
+    else if (dlEcommerce.purchase.products) convProducts = dlEcommerce.purchase.products;
+    else if (dlEcommerce.add.products) convProducts = dlEcommerce.add.products;
+    else if (dlEcommerce.remove.products) convProducts = dlEcommerce.remove.products;
+    else if (dlEcommerce.detail.products) convProducts = dlEcommerce.detail.products;
+    
+    if (convProducts && getType(convProducts) === "array") {
+      ecProducts = convProducts.map(prod => {
+        var prodObj = {};
+        prodObj.sku = prod.item_id || prod.sku || prod.id;
+        prodObj.name = prod.item_name || prod.name;
+        prodObj.price = prod.price || 0;
+        prodObj.category = prod.category || prod.item_category || 
+                           prod.item_category2 || prod.item_category3 || '';
+        prodObj.quantity = prod.quantity || 1;
+        prodObj.brand = prod.item_brand || prod.brand;
+        prodObj.variant = prod.item_variant || prod.variant;
+        return prodObj;
+      });
+    }
+    
+    if (dlEcommerce.purchase)
+      ecPaymentData = {
+        orderId: dlEcommerce.purchase.id,
+        grandTotal: dlEcommerce.purchase.revenue||0,
+        tax: dlEcommerce.purchase.tax||0,
+        shipping: dlEcommerce.purchase.shipping||0,
+        discount: dlEcommerce.purchase.discount||0
+      };
+    else 
+      ecPaymentData = {
+        orderId: dlEcommerce.transaction_id,
+        grandTotal: dlEcommerce.value,
+        tax: dlEcommerce.tax||0,
+        shipping: dlEcommerce.shipping||0,
+        discount: dlEcommerce.discount||0
+      };
+    
+  } else if (data.ecommerceProductType === "single") {
+    var dims = data.productDimensions,
+        cat = data.productCategory, 
+        prod = {
+          sku: data.productSKU,
+          name: data.productName,
+          price: data.productPrice,
+          quantity: data.productQuantity||1,
+          brand: data.productBrand,
+          variant: data.productVariant
+        };
+    
+    if (cat) {
+      if (getType(cat) === "string") prod.category = [cat];
+      if (getType(cat) === "object") prod.category = cat;
+    }
+    if (dims && getType(dims) === "object") prod.customDimensions = dims;
+    ecProducts.push(prod);
+  } else if (getType(data.productsArray) === "array") {
+    //map products array
+    ecProducts = data.productsArray.map(prod => {
+      var prodObj = {};
+      prodObj.sku = prod[data.productSKUKey];
+      prodObj.name = prod[data.productNameKey];
+      prodObj.price = prod[data.productPriceKey]||0;
+      var cat = prod[data.productCategoryKey];
+      if (cat) prodObj.category = cat;
+      prodObj.quantity = prod[data.productQuantityKey]||1;
+      prodObj.brand = prod[data.productBrandKey];
+      prodObj.variant = prod[data.productVariantKey];
+      var dims = prod[data.productDimensionsKey];
+      if (dims) prodObj.customDimensions = dims;
+      return prodObj;
+    });         
+  }
+  
+  //ecommerce
+  switch (ecType) {
+    case 'ecommerceProductDetailView':_pp(['ecommerceProductDetailView', ecProducts]); break;
+    case 'ecommerceAddToCart':_pp(['ecommerceAddToCart', ecProducts]); break;
+    case 'ecommerceRemoveFromCart':_pp(['ecommerceRemoveFromCart', ecProducts]); break;
+    case 'ecommerceCartUpdate':_pp(['ecommerceCartUpdate', ecProducts, data.ecommerceUpdateTotal||0]); break;
+    case 'ecommerceOrder':
+      ecPaymentData = ecPaymentData || {
+        orderId: data.orderId,
+        grandTotal: data.grandTotal||0,
+        subTotal: data.subTotal||0,
+        tax: data.tax||0,
+        shipping: data.shipping||0,
+        discount: data.discount||0
+      };
+      _pp(['ecommerceOrder', ecProducts, ecPaymentData]); 
+      break;
+  } 
   
 } else if (data.trackingType == 'search') {
 
   //track site search
-  _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount, buildDimensionsObject()]);
+  _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount]);
 
 } else if (data.trackingType == 'impression') {
 
@@ -1366,7 +1503,7 @@ if (data.trackingType == 'event') {
 } else if (data.trackingType == 'link') {
 
   //track links
-  _pp(['trackLink', data.linkAddress, data.linkType, buildDimensionsObject()]);
+  _pp(['trackLink', data.linkAddress, data.linkType]);
   
   
 } else if (data.trackingType == 'virtual') {
@@ -1387,20 +1524,13 @@ if (data.trackingType == 'event') {
 
 } else {
   
-  //init only or pageview
-    
+  //init only or pageview   
+  
   // Link tracking
   if (data.enableLinkTracking == true) {
     _pp(["enableLinkTracking"]);
   }
 
-  //init global custom dimensions?
-  if (data.customDimTable && data.customDimTable.length > 0) {
-    data.customDimTable.forEach(x => {
-      _pp(['setCustomDimensionValue', x.dimSlot, x.dimValue]);
-    });
-  }  
-  
   // Content tracking - track all impressions or only visible impressions
   if (data.enableContentTracking == true) {
     if (data.contentTrackingOptions === "trackAllContentImpressions") {
@@ -1579,6 +1709,82 @@ ___WEB_PERMISSIONS___
                     "boolean": true
                   }
                 ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "dataLayer"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "read_data_layer",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "allowedKeys",
+          "value": {
+            "type": 1,
+            "string": "specific"
+          }
+        },
+        {
+          "key": "keyPatterns",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "ecommerce"
+              },
+              {
+                "type": 1,
+                "string": "event"
               }
             ]
           }
@@ -1627,4 +1833,4 @@ setup: |-
 
 ___NOTES___
 
-Created on 20.12.2022, 02:32:44
+Created on 14.6.2024, 18:06:36
