@@ -1350,6 +1350,11 @@ const onFailure = () => {
 let _pp, jsTracker, 
     existingQueue, processExisting = data.processExistingQueue === true;
 
+if (data.instanceURL.indexOf('/', data.instanceURL.length - 1) !== -1) {
+  // Remove the trailing slash
+  data.instanceURL = data.instanceURL.slice(0, -1);
+}
+
 if (data.useAlternativeNamespace == true) {
   existingQueue = copyFromWindow('_ppas');
   _pp = createQueue('_ppas');
