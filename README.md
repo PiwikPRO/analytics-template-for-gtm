@@ -50,7 +50,7 @@ The template can send all types of Piwik PRO ecommerce events (ecommerce v2):
 You can add product data by providing an array (like *`ecommerce.items`*) and mapping object keys to the according Piwik PRO product structure or define all parameters of a single item manually. 
 
 ### Custom Product Dimensions
-If you want to add dimensions to a product, add them either to the source array or for a single item in the following format: 
+If you want to add dimensions to a product, add them either to the source array or for a single item (as result of a custom JavaScript variable) in the following format: 
 
 ```
 {
