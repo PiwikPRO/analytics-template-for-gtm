@@ -1,12 +1,4 @@
-﻿___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
-
-___INFO___
+﻿___INFO___
 
 {
   "type": "TAG",
@@ -79,19 +71,8 @@ ___TEMPLATE_PARAMETERS___
     "name": "analyticsDomains",
     "displayName": "Site or app address",
     "simpleValueType": true,
-    "textAsList": true,
-    "lineCount": 2,
-    "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more URLs if you track multiple sites with the same tracking code. Separate with the enter key. No commas, no \"https://\". Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
-    "valueHint": "example.com",
-    "valueValidators": [
-      {
-        "type": "REGEX",
-        "args": [
-          "^((?!,).)*$"
-        ],
-        "errorMessage": "Please specify the domains without commas"
-      }
-    ]
+    "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more hosts if you track multiple sites with the same tracking code. Separate entries with a comma. Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
+    "valueHint": "example.com"
   },
   {
     "type": "SELECT",
@@ -917,35 +898,43 @@ ___TEMPLATE_PARAMETERS___
     ]
   },
   {
-    "type": "PARAM_TABLE",
-    "name": "eventDimensions",
+    "type": "GROUP",
+    "name": "eventDimSettings",
     "displayName": "Event scoped dimensions (optional)",
-    "paramTableColumns": [
+    "groupStyle": "NO_ZIPPY",
+    "subParams": [
       {
-        "param": {
-          "type": "TEXT",
-          "name": "dimensionId",
-          "displayName": "Dimension ID",
-          "simpleValueType": true,
-          "valueValidators": [
-            {
-              "type": "POSITIVE_NUMBER"
+        "type": "PARAM_TABLE",
+        "name": "eventDimensions",
+        "displayName": "These custom dimensions will only be added to the selected event (e.g. custom event, goal conversion)",
+        "paramTableColumns": [
+          {
+            "param": {
+              "type": "TEXT",
+              "name": "dimensionId",
+              "displayName": "Dimension ID",
+              "simpleValueType": true,
+              "valueValidators": [
+                {
+                  "type": "POSITIVE_NUMBER"
+                },
+                {
+                  "type": "NON_EMPTY"
+                }
+              ]
             },
-            {
-              "type": "NON_EMPTY"
-            }
-          ]
-        },
-        "isUnique": true
-      },
-      {
-        "param": {
-          "type": "TEXT",
-          "name": "dimensionValue",
-          "displayName": "Dimension value",
-          "simpleValueType": true
-        },
-        "isUnique": false
+            "isUnique": true
+          },
+          {
+            "param": {
+              "type": "TEXT",
+              "name": "dimensionValue",
+              "displayName": "Dimension value",
+              "simpleValueType": true
+            },
+            "isUnique": false
+          }
+        ]
       }
     ],
     "enablingConditions": [
@@ -956,12 +945,12 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "paramName": "trackingType",
-        "paramValue": "search",
+        "paramValue": "goal",
         "type": "EQUALS"
       },
       {
         "paramName": "trackingType",
-        "paramValue": "goal",
+        "paramValue": "search",
         "type": "EQUALS"
       },
       {
@@ -1420,8 +1409,35 @@ if (data.customEventTitle && data.customEventTitle !== "")
   _pp(['setDocumentTitle', data.customEventTitle]);
 
 // Analytics domains
-if (data.analyticsDomains && data.analyticsDomains !== "")
-  _pp(['setDomains', data.analyticsDomains]);
+if (data.analyticsDomains && data.analyticsDomains !== "") {
+  
+  let domainsListInput, 
+      setDomainsList = [],
+      addToDomainList = function(d) {
+        d = d.trim();
+        //data.analyticsDomains can still have line breaks instead of commas   
+        d.split("\n").forEach(x=>{
+          if (x && (x !== "") && (setDomainsList.indexOf(x) < 0))
+            setDomainsList.push(x);
+          });
+      }, 
+      normalizeDomainEntry = function(d) {
+        return d.toLowerCase().replace("https://", "").
+               replace("http://", "").replace("/", "");
+      };
+
+  if (getType(data.analyticsDomains) === "array") 
+    domainsListInput = require("makeString")(data.analyticsDomains).split(",");
+  else if (getType(data.analyticsDomains) === "string")
+    domainsListInput = data.analyticsDomains.split(",");
+
+  if (domainsListInput.length > 0) {
+    domainsListInput.forEach(d => {
+      addToDomainList(normalizeDomainEntry(d));
+    });
+    _pp(['setDomains', setDomainsList]);
+  }  
+}
 
 // Cross-domain tracking
 if (data.enableCrossDomainLinking == true) {
