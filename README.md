@@ -12,11 +12,16 @@ The following changes and enhancements were intruduced since the initial templat
 ### Tag Configuration 
 - *"Site or app address"*: fixed input format (no https://) and enabled comma-separated lists for multiple hosts or domains
 - you can use a constant to populate the *"Site or app address"* field now when using multiple tags (field type was changed)
-- *"Use visitor cookies"*: changed from checkbox to a drop-down including variables. This enables you to set this option depending on current consent
-- The new option to *"Enable Strict Privacy Mode"* can be set in the same way, so the same tag can be used either with or without consent with dynamic pricacy settings
 - New settings in the *Other options* block to support the following features:
   - *"Use custom tracker URL"* enables the use of a custom endpoint like the Piwik **PRO First Party Collector** or **server-side Google Tag Manager**
   - *"Override event URL*" can be used to change the URL that gets sent with the current hit, *"Custom document title"* does the same for the title (can be used to pick a title from a `dataLayer` instead of the regular title in the browser)  
+
+### Google Consent Mode & Privacy Settings
+The *"Use visitor cookies"* option format was changed from checkbox to a drop-down including variables. This enables you to set this option depending on current consent.
+
+The new option to *"Enable Strict Privacy Mode"* can be set in the same way, so the same tag can be used either with or without consent with dynamic pricacy settings.
+
+Both options can be controlled by the Google Consent Mode flag `analytics_storage` when *"Follow Google Consent Mode"* is activated. If active, the other two options are hidden and automatically set according to the current Consent Mode status when fired.     
 
 ### Multiple "Tracking Types"
 Additional to the standard init and pageview, the new template supports the full set of Piwik PRO hits and events:

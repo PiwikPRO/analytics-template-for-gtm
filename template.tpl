@@ -1,4 +1,12 @@
-﻿___INFO___
+﻿___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+
+___INFO___
 
 {
   "type": "TAG",
@@ -1087,6 +1095,13 @@ ___TEMPLATE_PARAMETERS___
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
+        "type": "CHECKBOX",
+        "name": "useConsentMode",
+        "checkboxText": "Follow Google Consent Mode",
+        "simpleValueType": true,
+        "help": "Check this option to let Consent Mode control cookie settings. If active, no cookies will be used and the tag will run in Strict Privacy Mode when fired without \"analytics_storage\""
+      },
+      {
         "type": "SELECT",
         "name": "useCookies",
         "displayName": "Use visitor cookies",
@@ -1103,7 +1118,40 @@ ___TEMPLATE_PARAMETERS___
         ],
         "simpleValueType": true,
         "defaultValue": true,
-        "help": "If turned off, you won’t set visitor cookies like _pk_id.* and _pk_ses.* that are responsible for recognizing visitors and their sessions."
+        "help": "If turned off, you won’t set visitor cookies like _pk_id.* and _pk_ses.* that are responsible for recognizing visitors and their sessions.",
+        "enablingConditions": [
+          {
+            "paramName": "useConsentMode",
+            "paramValue": false,
+            "type": "EQUALS"
+          }
+        ]
+      },
+      {
+        "type": "SELECT",
+        "name": "setSessionIdStrictPrivacyMode",
+        "displayName": "Enable Strict Privacy Mode",
+        "macrosInSelect": true,
+        "selectItems": [
+          {
+            "value": true,
+            "displayValue": "true"
+          },
+          {
+            "value": false,
+            "displayValue": "false"
+          }
+        ],
+        "simpleValueType": true,
+        "defaultValue": false,
+        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.).",
+        "enablingConditions": [
+          {
+            "paramName": "useConsentMode",
+            "paramValue": false,
+            "type": "EQUALS"
+          }
+        ]
       },
       {
         "type": "CHECKBOX",
@@ -1241,25 +1289,6 @@ ___TEMPLATE_PARAMETERS___
             "type": "EQUALS"
           }
         ]
-      },
-      {
-        "type": "SELECT",
-        "name": "setSessionIdStrictPrivacyMode",
-        "displayName": "Enable Strict Privacy Mode",
-        "macrosInSelect": true,
-        "selectItems": [
-          {
-            "value": true,
-            "displayValue": "true"
-          },
-          {
-            "value": false,
-            "displayValue": "false"
-          }
-        ],
-        "simpleValueType": true,
-        "defaultValue": false,
-        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.)."
       }
     ]
   },
@@ -1334,6 +1363,7 @@ const injectScript = require('injectScript');
 const getType = require('getType');
 const copyFromDataLayer = require('copyFromDataLayer');
 const copyFromWindow = require('copyFromWindow');
+const isConsentGranted = require('isConsentGranted');
 
 // onSuccess, onFailure for launching the tracking code
 const onSuccess = () => {
@@ -1375,8 +1405,10 @@ if (processExisting === true && existingQueue)
   Cookie Handling
 ********************/
 
+const gcmConsentGranted = (data.useConsentMode == true) ? isConsentGranted('analytics_storage') : true;
+
 // Option to disable tracking cookies
-if (data.useCookies == false) {
+if (data.useCookies == false || !gcmConsentGranted) {
   _pp(['disableCookies']);
 }
 
@@ -1466,7 +1498,7 @@ if (data.setUserID == true) {
 }
 
 // Setting the strict privacy option
-_pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true)]);
+_pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true) || !gcmConsentGranted]);
 
 /********************
   Tag Type Handling
@@ -1919,6 +1951,59 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "event"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "access_consent",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "consentTypes",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "consentType"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "analytics_storage"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  }
+                ]
               }
             ]
           }
