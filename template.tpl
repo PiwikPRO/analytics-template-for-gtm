@@ -37,7 +37,7 @@ ___TEMPLATE_PARAMETERS___
     "name": "instanceURL",
     "displayName": "Account address",
     "simpleValueType": true,
-    "valueHint": "https://example.piwik.pro/",
+    "valueHint": "https://example.piwik.pro",
     "help": "Your account address in Piwik PRO.",
     "valueValidators": [
       {
@@ -46,13 +46,6 @@ ___TEMPLATE_PARAMETERS___
           "^https://.*"
         ],
         "errorMessage": "The URL must start with https://"
-      },
-      {
-        "type": "REGEX",
-        "args": [
-          ".*\\/$"
-        ],
-        "errorMessage": "The URL must end with a \"/\""
       },
       {
         "type": "NON_EMPTY",
@@ -1371,11 +1364,11 @@ let _pp, jsTracker,
 if (data.useAlternativeNamespace == true) {
   existingQueue = copyFromWindow('_ppas');
   _pp = createQueue('_ppas');
-  jsTracker = data.instanceURL + "ppas.js";
+  jsTracker = data.instanceURL + "/" + "ppas.js";
 } else {
   existingQueue = copyFromWindow('_paq');
   _pp = createQueue('_paq');
-  jsTracker = data.instanceURL + "ppms.js";
+  jsTracker = data.instanceURL + "/" + "ppms.js";
 }
 
 //process existing commands in the queue if option checked
@@ -1417,10 +1410,6 @@ if (data.setReferralCookieTimeout == true) {
 /********************
   Settings & Options
 ********************/
-
-// Custom tracker URL
-if (data.customTrackerUrl && data.customTrackerUrl !== "")
-  _pp(['setTrackerUrl', data.customTrackerUrl]);
 
 // Custom page / event URL
 if (data.customEventUrl && data.customEventUrl !== "")
@@ -1668,14 +1657,18 @@ if (data.trackingType == 'event') {
 
 // After specifying the options, a function needs to run that specifies the tracking URL, website UUID
 // and injects the tracking code into <head>
-let trackerURL = data.instanceURL + "ppms.php";
+let trackerURL = data.instanceURL + "/" + "ppms.php";
+
+// Custom tracker URL
+if (data.customTrackerUrl && data.customTrackerUrl !== "") {
+   trackerURL = data.customTrackerUrl;
+}
+
 const injectTracker = jsTracker => {
   _pp(["setTrackerUrl", trackerURL]);
   _pp(["setSiteId", data.websiteID]);
-  
   injectScript(jsTracker, onSuccess, onFailure, jsTracker);
 };
-
 // Launch the tracking code
 injectTracker(jsTracker);
 
@@ -1934,7 +1927,7 @@ scenarios:
     assertApi('gtmOnSuccess').wasCalled();
 setup: |-
   const mockData = {
-    instanceURL: "https://example.piwik.pro/",
+    instanceURL: "https://example.piwik.pro",
     websiteID: "12a3bc45-6789-0def-ghi1-2j34klm5no6p",
     useAlternativeNamespace: false,
     analyticsDomains: ["example.com"]
