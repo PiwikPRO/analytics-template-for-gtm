@@ -1505,15 +1505,25 @@ if (data.trackingType == 'event') {
       case 'add_to_cart': ecType = "ecommerceAddToCart"; break;
       case 'remove_from_cart': ecType = "ecommerceRemoveFromCart"; break;
       case 'purchase': ecType = "ecommerceOrder"; break;
-      default: log('Piwik PRO Analytics failed to detect ecommerce event.'); break;
+      default: ecType = "none"; break;
     }
     
     var convProducts;
-    if (dlEcommerce.items) convProducts = dlEcommerce.items;
-    else if (dlEcommerce.purchase.products) convProducts = dlEcommerce.purchase.products;
-    else if (dlEcommerce.add.products) convProducts = dlEcommerce.add.products;
-    else if (dlEcommerce.remove.products) convProducts = dlEcommerce.remove.products;
-    else if (dlEcommerce.detail.products) convProducts = dlEcommerce.detail.products;
+    if (dlEcommerce.items) {
+      convProducts = dlEcommerce.items;
+    } else if (dlEcommerce.purchase.products) {
+      convProducts = dlEcommerce.purchase.products;
+      if (ecType === "none") ecType = "ecommerceOrder";
+    } else if (dlEcommerce.add.products) {
+      convProducts = dlEcommerce.add.products;
+      if (ecType === "none") ecType = "ecommerceAddToCart";
+    } else if (dlEcommerce.remove.products) {
+      convProducts = dlEcommerce.remove.products;
+      if (ecType === "none") ecType = "ecommerceRemoveFromCart";
+    } else if (dlEcommerce.detail.products) {
+      convProducts = dlEcommerce.detail.products;
+      if (ecType === "none") ecType = "ecommerceProductDetailView";
+    } 
     
     if (convProducts && getType(convProducts) === "array") {
       ecProducts = convProducts.map(prod => {
