@@ -1349,6 +1349,13 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Custom document title",
         "simpleValueType": true,
         "help": "Overwrite document title. This and all events afterwards will use the provided document title."
+      },
+      {
+        "type": "TEXT",
+        "name": "customPageReferrer",
+        "displayName": "Override page referrer",
+        "simpleValueType": true,
+        "help": "Define a custom page referrer. This and all events afterwards will use the provided referrer value."
       }
     ]
   }
@@ -1444,6 +1451,10 @@ if (data.customEventUrl && data.customEventUrl !== "")
 // Custom page title
 if (data.customEventTitle && data.customEventTitle !== "")
   _pp(['setDocumentTitle', data.customEventTitle]);
+
+// Override page referrer
+if (data.customPageReferrer && data.customPageReferrer !== "")
+  _pp(['setReferrerUrl', data.customPageReferrer]);
 
 // Analytics domains
 if (data.analyticsDomains && data.analyticsDomains !== "") {
