@@ -1300,14 +1300,6 @@ ___TEMPLATE_PARAMETERS___
     "subParams": [
       {
         "type": "CHECKBOX",
-        "name": "processExistingQueue",
-        "checkboxText": "Process commands in queue",
-        "simpleValueType": true,
-        "help": "Process commands already in queue (_pas / _ppms) when initializing this tag.",
-        "defaultValue": false
-      },
-      {
-        "type": "CHECKBOX",
         "name": "enableJSErrorTracking",
         "checkboxText": "Detect JavaScript errors",
         "simpleValueType": true,
@@ -1369,7 +1361,6 @@ const createQueue = require('createQueue');
 const injectScript = require('injectScript');
 const getType = require('getType');
 const copyFromDataLayer = require('copyFromDataLayer');
-const copyFromWindow = require('copyFromWindow');
 const isConsentGranted = require('isConsentGranted');
 
 // onSuccess, onFailure for launching the tracking code
@@ -1384,8 +1375,7 @@ const onFailure = () => {
 };
 
 // Initialize tracker objects, Piwik PRO Analytics queue
-let _pp, jsTracker, 
-    existingQueue, processExisting = data.processExistingQueue === true;
+let _pp, jsTracker;
 
 if (data.instanceURL.indexOf('/', data.instanceURL.length - 1) !== -1) {
   // Remove the trailing slash
@@ -1393,20 +1383,12 @@ if (data.instanceURL.indexOf('/', data.instanceURL.length - 1) !== -1) {
 }
 
 if (data.useAlternativeNamespace == true) {
-  existingQueue = copyFromWindow('_ppas');
   _pp = createQueue('_ppas');
   jsTracker = data.instanceURL + "/" + "ppas.js";
 } else {
-  existingQueue = copyFromWindow('_paq');
   _pp = createQueue('_paq');
   jsTracker = data.instanceURL + "/" + "ppms.js";
 }
-
-//process existing commands in the queue if option checked
-if (processExisting === true && existingQueue)
-  for (const item of existingQueue) {
-    _pp(item);
-  }
 
 /********************
   Cookie Handling
