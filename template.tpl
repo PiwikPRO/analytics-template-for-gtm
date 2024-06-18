@@ -33,56 +33,6 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
-    "type": "TEXT",
-    "name": "instanceURL",
-    "displayName": "Account address",
-    "simpleValueType": true,
-    "valueHint": "https://example.piwik.pro",
-    "help": "Your account address in Piwik PRO.",
-    "valueValidators": [
-      {
-        "type": "REGEX",
-        "args": [
-          "^https://.*"
-        ],
-        "errorMessage": "The URL must start with https://"
-      },
-      {
-        "type": "NON_EMPTY",
-        "errorMessage": "Please provide a valid instance URL"
-      }
-    ]
-  },
-  {
-    "type": "TEXT",
-    "name": "websiteID",
-    "displayName": "Site or app ID",
-    "simpleValueType": true,
-    "valueValidators": [
-      {
-        "type": "NON_EMPTY"
-      },
-      {
-        "type": "STRING_LENGTH",
-        "args": [
-          36,
-          36
-        ],
-        "errorMessage": "Please provide a valid website ID"
-      }
-    ],
-    "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38",
-    "help": "The unique ID for your site or app in Piwik PRO."
-  },
-  {
-    "type": "TEXT",
-    "name": "analyticsDomains",
-    "displayName": "Site or app address",
-    "simpleValueType": true,
-    "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more hosts if you track multiple sites with the same tracking code. Separate entries with a comma. Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
-    "valueHint": "example.com"
-  },
-  {
     "type": "SELECT",
     "name": "trackingType",
     "displayName": "Tracking type",
@@ -139,7 +89,158 @@ ___TEMPLATE_PARAMETERS___
     ],
     "simpleValueType": true,
     "defaultValue": "pageview",
-    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually."
+    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
+    "alwaysInSummary": true
+  },
+  {
+    "type": "LABEL",
+    "name": "lblTypeInfo",
+    "displayName": "Note: your set-up will need one \"pageview\" or \"init only\" . tag in order for all other \"Tracking type\" to work.",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "paramValue": "goal",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "event",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "ecom",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "search",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "link",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "virtual",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "impression",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "interaction",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "setdimension",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "deldimension",
+        "type": "EQUALS"
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
+    "name": "accountSetup",
+    "displayName": "Account Setup",
+    "groupStyle": "ZIPPY_OPEN",
+    "subParams": [
+      {
+        "type": "TEXT",
+        "name": "instanceURL",
+        "displayName": "Account address",
+        "simpleValueType": true,
+        "valueHint": "https://example.piwik.pro",
+        "help": "Your account address in Piwik PRO.",
+        "valueValidators": [
+          {
+            "type": "REGEX",
+            "args": [
+              "^https://.*"
+            ],
+            "errorMessage": "The URL must start with https://"
+          },
+          {
+            "type": "NON_EMPTY",
+            "errorMessage": "Please provide a valid instance URL"
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "name": "websiteID",
+        "displayName": "Site or app ID",
+        "simpleValueType": true,
+        "valueValidators": [
+          {
+            "type": "NON_EMPTY"
+          },
+          {
+            "type": "STRING_LENGTH",
+            "args": [
+              36,
+              36
+            ],
+            "errorMessage": "Please provide a valid website ID"
+          }
+        ],
+        "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38",
+        "help": "The unique ID for your site or app in Piwik PRO."
+      },
+      {
+        "type": "TEXT",
+        "name": "analyticsDomains",
+        "displayName": "Site or app address",
+        "simpleValueType": true,
+        "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more hosts if you track multiple sites with the same tracking code. Separate entries with a comma. Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
+        "valueHint": "example.com"
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "useAlternativeNamespace",
+        "checkboxText": "Use an alternative namespace",
+        "simpleValueType": true,
+        "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
+      },
+      {
+        "type": "TEXT",
+        "name": "customTrackerUrl",
+        "displayName": "Use custom tracker URL",
+        "simpleValueType": true,
+        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)",
+        "valueValidators": [
+          {
+            "type": "REGEX",
+            "args": [
+              "^https://.+"
+            ],
+            "errorMessage": "Enter a valid URL"
+          }
+        ]
+      }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "paramValue": "pageview",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "init",
+        "type": "EQUALS"
+      }
+    ]
   },
   {
     "type": "GROUP",
@@ -1041,6 +1142,13 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "CHECKBOX",
+        "name": "enableJSErrorTracking",
+        "checkboxText": "Detect JavaScript errors",
+        "simpleValueType": true,
+        "help": "If turned on, you\u0027ll record all kinds of JavaScript errors on your website. The errors will be saved as custom events with the error type and the URL of the page where they occurred. You\u0027ll see them under Analytics \u003e Reports \u003e Custom events or if you create a custom report."
+      },
+      {
+        "type": "CHECKBOX",
         "name": "countSessionsPrecisely",
         "checkboxText": "Count session time precisely",
         "simpleValueType": true,
@@ -1085,6 +1193,18 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Send the traffic source to the tracker debugger",
         "simpleValueType": true,
         "help": "If checked, you\u0027ll see Google Tag Manager as a traffic source in Piwik PRO \u003e Analytics \u003e Settings \u003e Tracker debugger. (Available for 16.12+)"
+      }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "paramValue": "init",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "pageview",
+        "type": "EQUALS"
       }
     ]
   },
@@ -1290,6 +1410,18 @@ ___TEMPLATE_PARAMETERS___
           }
         ]
       }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "paramValue": "init",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "pageview",
+        "type": "EQUALS"
+      }
     ]
   },
   {
@@ -1298,36 +1430,6 @@ ___TEMPLATE_PARAMETERS___
     "displayName": "Other options",
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
-      {
-        "type": "CHECKBOX",
-        "name": "enableJSErrorTracking",
-        "checkboxText": "Detect JavaScript errors",
-        "simpleValueType": true,
-        "help": "If turned on, you\u0027ll record all kinds of JavaScript errors on your website. The errors will be saved as custom events with the error type and the URL of the page where they occurred. You\u0027ll see them under Analytics \u003e Reports \u003e Custom events or if you create a custom report."
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "useAlternativeNamespace",
-        "checkboxText": "Use an alternative namespace",
-        "simpleValueType": true,
-        "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
-      },
-      {
-        "type": "TEXT",
-        "name": "customTrackerUrl",
-        "displayName": "Use custom tracker URL",
-        "simpleValueType": true,
-        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)",
-        "valueValidators": [
-          {
-            "type": "REGEX",
-            "args": [
-              "^https://.+"
-            ],
-            "errorMessage": "Enter a valid URL"
-          }
-        ]
-      },
       {
         "type": "TEXT",
         "name": "customEventUrl",
@@ -1376,6 +1478,7 @@ const onFailure = () => {
 
 // Initialize tracker objects, Piwik PRO Analytics queue
 let _pp, jsTracker;
+data.instanceURL = data.instanceURL || "";
 
 if (data.instanceURL.indexOf('/', data.instanceURL.length - 1) !== -1) {
   // Remove the trailing slash
@@ -1390,37 +1493,10 @@ if (data.useAlternativeNamespace == true) {
   jsTracker = data.instanceURL + "/" + "ppms.js";
 }
 
-/********************
-  Cookie Handling
-********************/
-
 const gcmConsentGranted = (data.useConsentMode == true) ? isConsentGranted('analytics_storage') : true;
 
-// Option to disable tracking cookies
-if (data.useCookies == false || !gcmConsentGranted) {
-  _pp(['disableCookies']);
-}
-
-// Set secure cookie
-if (data.setSecureCookie == true) {
-  _pp(['setSecureCookie', 1]);
-}
-
-// Cookie timeouts for Piwik PRO first-party cookies
-// Visitor cookie
-if (data.setVisitorCookieTimeout == true) {
-  _pp(['setVisitorCookieTimeout', data.visitorCookieTimeout]);
-}
-
-// Session cookie
-if (data.setSessionCookieTimeout == true) {
-  _pp(['setSessionCookieTimeout', data.sessionCookieTimeout]);
-}
-
-// Referral cookie
-if (data.setReferralCookieTimeout == true) {
-  _pp(['setReferralCookieTimeout', data.referralCookieTimeout]);
-}
+//prevent missing type from updated tags
+data.trackingType = data.trackingType || "pageview";
 
 /********************
   Settings & Options
@@ -1438,67 +1514,10 @@ if (data.customEventTitle && data.customEventTitle !== "")
 if (data.customPageReferrer && data.customPageReferrer !== "")
   _pp(['setReferrerUrl', data.customPageReferrer]);
 
-// Analytics domains
-if (data.analyticsDomains && data.analyticsDomains !== "") {
-  
-  let domainsListInput, 
-      setDomainsList = [],
-      addToDomainList = function(d) {
-        d = d.trim();
-        //data.analyticsDomains can still have line breaks instead of commas   
-        d.split("\n").forEach(x=>{
-          if (x && (x !== "") && (setDomainsList.indexOf(x) < 0))
-            setDomainsList.push(x);
-          });
-      }, 
-      normalizeDomainEntry = function(d) {
-        return d.toLowerCase().replace("https://", "").
-               replace("http://", "").replace("/", "");
-      };
-
-  if (getType(data.analyticsDomains) === "array") 
-    domainsListInput = require("makeString")(data.analyticsDomains).split(",");
-  else if (getType(data.analyticsDomains) === "string")
-    domainsListInput = data.analyticsDomains.split(",");
-
-  if (domainsListInput.length > 0) {
-    domainsListInput.forEach(d => {
-      addToDomainList(normalizeDomainEntry(d));
-    });
-    _pp(['setDomains', setDomainsList]);
-  }  
-}
-
-// Cross-domain tracking
-if (data.enableCrossDomainLinking == true) {
-  _pp(['enableCrossDomainLinking']);
-}
-
-// Set cookie domain
-if (data.setCookieDomain == true) {
-  _pp(['setCookieDomain', data.cookieDomain]);
-}
-
-// Traffic source tracking
-if (data.setTrackingSource == true) {
-  _pp(['setTrackingSource', 'gtm', '1.0.3']);
-}
-
-// Setting the User ID
-if (data.setUserID == true) {
-  let userId = data.userID;
-  _pp(['setUserId', userId]);
-}
-
-// Setting the strict privacy option
-_pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true) || !gcmConsentGranted]);
 
 /********************
   Tag Type Handling
 ********************/
-
-//prevent missing type from updated tags
-data.trackingType = data.trackingType || "pageview";
 
 var eventDimensions = {};
 if (data.eventDimensions) data.eventDimensions.forEach(d => {
@@ -1509,11 +1528,13 @@ if (data.trackingType == 'event') {
 
   //custom events
   _pp(['trackEvent', data.evCategory, data.evAction, data.evName, data.evValue, eventDimensions]);
+  data.gtmOnSuccess();
 
 } else if (data.trackingType == 'goal') {
 
   //track goal and optional revenue
   _pp(['trackGoal', data.goalId, data.conversionValue, eventDimensions]);
+  data.gtmOnSuccess();
 
 } else if (data.trackingType == 'ecom') {
    
@@ -1635,17 +1656,20 @@ if (data.trackingType == 'event') {
       };
       _pp(['ecommerceOrder', ecProducts, ecPaymentData]); 
       break;
-  } 
+  }
+  data.gtmOnSuccess();
   
 } else if (data.trackingType == 'search') {
 
   //track site search
   _pp(['trackSiteSearch', data.searchKeyword, data.searchCategory, data.searchCount, eventDimensions]);
+  data.gtmOnSuccess();
 
 } else if (data.trackingType == 'impression') {
 
   //track content impressions
   _pp(['trackContentImpression', data.contentName, data.contentPiece, data.contentTarget]);
+  data.gtmOnSuccess();
   
 } else if (data.trackingType == 'interaction') {
 
@@ -1654,32 +1678,126 @@ if (data.trackingType == 'event') {
     _pp(['trackContentInteractionNode', data.domNode, data.contentInteraction]);
   else
     _pp(['trackContentInteraction', data.contentInteraction, data.contentName, data.contentPiece, data.contentTarget]);
+  data.gtmOnSuccess();
   
 } else if (data.trackingType == 'link') {
 
   //track links
   _pp(['trackLink', data.linkAddress, data.linkType, eventDimensions]);
-  
+  data.gtmOnSuccess();
   
 } else if (data.trackingType == 'virtual') {
   
   //track virtual pageview only
   if (data.virtualPageUrl) _pp(["setCustomUrl", data.virtualPageUrl]);
   _pp(['trackPageView', data.virtualPageTitle]);
+  data.gtmOnSuccess();
   
 } else if (data.trackingType == 'setdimension') {
 
   //set dimension
   _pp(['setCustomDimensionValue', data.customDimensionID, data.customDimensionValue]);
+  data.gtmOnSuccess();
   
 } else if (data.trackingType == 'deldimension') {
 
   //delete dimension
   _pp(['deleteCustomDimension', data.delCustomDimensionID]);
+  data.gtmOnSuccess();
 
 } else {
   
   //init only or pageview   
+  
+  
+  /********************
+    Cookie Handling
+  ********************/
+
+  // Option to disable tracking cookies
+  if (data.useCookies == false || !gcmConsentGranted) {
+    _pp(['disableCookies']); 
+  }
+
+  // Set secure cookie
+  if (data.setSecureCookie == true) {
+    _pp(['setSecureCookie', 1]);
+  }
+
+  // Cookie timeouts for Piwik PRO first-party cookies
+  // Visitor cookie
+  if (data.setVisitorCookieTimeout == true) {
+    _pp(['setVisitorCookieTimeout', data.visitorCookieTimeout]);
+  }
+
+  // Session cookie
+  if (data.setSessionCookieTimeout == true) {
+    _pp(['setSessionCookieTimeout', data.sessionCookieTimeout]);
+  }
+
+  // Referral cookie
+  if (data.setReferralCookieTimeout == true) {
+    _pp(['setReferralCookieTimeout', data.referralCookieTimeout]);
+  }
+  
+  /********************************
+    Account setup & Data collection
+  *********************************/
+
+  // Analytics domains
+  if (data.analyticsDomains && data.analyticsDomains !== "") {
+  
+    let domainsListInput, 
+        setDomainsList = [],
+        addToDomainList = function(d) {
+          d = d.trim();
+          //data.analyticsDomains can still have line breaks instead of commas   
+          d.split("\n").forEach(x=>{
+            if (x && (x !== "") && (setDomainsList.indexOf(x) < 0))
+              setDomainsList.push(x);
+            });
+        }, 
+        normalizeDomainEntry = function(d) {
+          return d.toLowerCase().replace("https://", "").
+                 replace("http://", "").replace("/", "");
+        };
+
+    if (getType(data.analyticsDomains) === "array") 
+      domainsListInput = require("makeString")(data.analyticsDomains).split(",");
+    else if (getType(data.analyticsDomains) === "string")
+      domainsListInput = data.analyticsDomains.split(",");
+
+    if (domainsListInput.length > 0) {
+      domainsListInput.forEach(d => {
+        addToDomainList(normalizeDomainEntry(d));
+      });
+      _pp(['setDomains', setDomainsList]);
+    }  
+  }
+
+  // Cross-domain tracking
+  if (data.enableCrossDomainLinking == true) {
+    _pp(['enableCrossDomainLinking']);
+  }
+
+  // Set cookie domain
+  if (data.setCookieDomain == true) {
+    _pp(['setCookieDomain', data.cookieDomain]);
+  }
+
+  // Traffic source tracking
+  if (data.setTrackingSource == true) {
+    _pp(['setTrackingSource', 'gtm', '1.0.3']);
+  }
+
+  // Setting the User ID
+  if (data.setUserID == true) {
+    let userId = data.userID;
+    _pp(['setUserId', userId]);
+  }
+
+  // Setting the strict privacy option
+  _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true) || !gcmConsentGranted]);
   
   // Link tracking
   if (data.enableLinkTracking == true) {
@@ -1708,25 +1826,25 @@ if (data.trackingType == 'event') {
   if (data.trackingType == 'pageview') {
     _pp(["trackPageView"]);
   }
+  
+  // After specifying the options, a function needs to run that specifies the tracking URL, website UUID
+  // and injects the tracking code into <head>
+  let trackerURL = data.instanceURL + "/" + "ppms.php";
+
+  // Custom tracker URL
+  if (data.customTrackerUrl && data.customTrackerUrl !== "") {
+     trackerURL = data.customTrackerUrl;
+  }
+
+  const injectTracker = jsTracker => {
+    _pp(["setTrackerUrl", trackerURL]);
+    _pp(["setSiteId", data.websiteID]);
+    injectScript(jsTracker, onSuccess, onFailure, jsTracker);
+  };
+  // Launch the tracking code
+  injectTracker(jsTracker); 
 
 }
-
-// After specifying the options, a function needs to run that specifies the tracking URL, website UUID
-// and injects the tracking code into <head>
-let trackerURL = data.instanceURL + "/" + "ppms.php";
-
-// Custom tracker URL
-if (data.customTrackerUrl && data.customTrackerUrl !== "") {
-   trackerURL = data.customTrackerUrl;
-}
-
-const injectTracker = jsTracker => {
-  _pp(["setTrackerUrl", trackerURL]);
-  _pp(["setSiteId", data.websiteID]);
-  injectScript(jsTracker, onSuccess, onFailure, jsTracker);
-};
-// Launch the tracking code
-injectTracker(jsTracker);
 
 
 ___WEB_PERMISSIONS___

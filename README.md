@@ -11,8 +11,8 @@ The following changes and enhancements were intruduced since the initial templat
 
 ### Tag Configuration 
 - *"Site or app address"*: fixed input format (no https://) and enabled comma-separated lists for multiple hosts or domains
-- you can use a constant to populate the *"Site or app address"* field now when using multiple tags (field type was changed)
-- New settings in the *Other options* block to support the following features:
+- you can use a constant to populate the *"Site or app address"* field now (field type was changed)
+- New settings to support the following features:
   - *"Use custom tracker URL"* enables the use of a custom endpoint like the **Piwik PRO First Party Collector** or **server-side Google Tag Manager**
   - *"Override event URL*" can be used to change the URL that gets sent with the current hit 
   - *"Custom document title"* does the same for the title (can be used to pick a title from a `dataLayer` instead of the regular title in the browser) 
