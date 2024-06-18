@@ -7,47 +7,53 @@ A documentation can be found in this [Piwik PRO Help center article](https://hel
 ![screenshot](template.png)
 
 ## Release Notes
-The following changes and enhancements were intruduced since the initial template version: 
 
-### Tag Configuration 
-- *"Site or app address"*: fixed input format (no https://) and enabled comma-separated lists for multiple hosts or domains
-- you can use a constant to populate the *"Site or app address"* field now (field type was changed)
+The following changes and enhancements were intruduced since the initial template version:
+
+### Tag Configuration
+
+- _"Site or app address"_: fixed input format (no https://) and enabled comma-separated lists for multiple hosts or domains
+- you can use a constant to populate the _"Site or app address"_ field now (field type was changed)
 - New settings to support the following features:
-  - *"Use custom tracker URL"* enables the use of a custom endpoint like the **Piwik PRO First Party Collector** or **server-side Google Tag Manager**
-  - *"Override event URL*" can be used to change the URL that gets sent with the current hit 
-  - *"Custom document title"* does the same for the title (can be used to pick a title from a `dataLayer` instead of the regular title in the browser) 
-  - Also, you can use *"Override page referrer"* to further control data that gets sent to Piwik PRO
+  - _"Use a custom tracker URL"_ enables the use of a custom endpoint like the **Piwik PRO First Party Collector** or **server-side Google Tag Manager**
+  - _"Override event URL_" can be used to change the URL that gets sent with the current hit
+  - _"Set a custom document title"_ does the same for the title (can be used to pick a title from a `dataLayer` instead of the regular title in the browser)
+  - Also, you can use _"Override page referrer"_ to further control data that gets sent to Piwik PRO
 
 ### Google Consent Mode & Privacy Settings
-The *"Use visitor cookies"* option format was changed from checkbox to a drop-down including variables. This enables you to set this option depending on current consent.
 
-The new option to *"Enable Strict Privacy Mode"* can be set in the same way, so the same tag can be used either with or without consent with dynamic pricacy settings.
+The _"Use visitor cookies"_ option format was changed from checkbox to a drop-down including variables. This enables you to set this option depending on current consent.
 
-Both options can be controlled by the Google Consent Mode flag `analytics_storage` when *"Follow Google Consent Mode"* is activated. If active, the other two options are hidden and automatically set according to the current Consent Mode status when fired.     
+The new option to _"Don't collect visitor's device data"_ can be set in the same way, so the same tag can be used either with or without consent with dynamic pricacy settings.
 
-### Multiple "Tracking Types"
-Additional to the standard init and pageview, the new template supports the full set of Piwik PRO hits and events:
+Both options can be controlled by the Google Consent Mode flag `analytics_storage` when _"Follow Google Consent Mode"_ is activated. If active, the other two options are hidden and automatically set according to the current Consent Mode status when fired.
 
-- Pageview (default)
-- Init only (no pageview)
-- Goal
-- Event
-- Ecommerce (-> [Ecomerce Support](#ecommerce-support))
+### Multiple "tracking types"
+
+Additional to the standard init and page view, the new template supports the full set of Piwik PRO hits and events:
+
+- Basic tracking code
+- Basic tracking code (no page view event)
+- Goal conversion
+- Custom event
+- E-commerce events (-> [Ecomerce Support](#ecommerce-support))
 - Site search
-- Virtual pageview
+- Virtual page view
 - Content impression
 - Content interaction
-- Link
-- Set Dimension
-- Delete Dimension
+- Downloads and outlinks
+- Set custom dimension
+- Delete custom dimension
 
-Depending on the selected *"Tracking type"* you can define hit specific parameters.
+Depending on the selected _"Tracking type"_ you can define hit specific parameters.
 
-### Event-scoped dimensions
-You can optionally define event-scoped custom dimensions when sending an *Event*, *Goal*, *Site search* or *Link*. Those dimensions will only apply to the current hit. To define a custom dimension, add a new row to the table and enter the ID (index) of the dimension defined for your website and pick a variable or enter a constant string as dimension value.  
+### Custom dimension object
 
-### Ecommerce Support
-The template can send all types of Piwik PRO ecommerce events (ecommerce v2): 
+You can optionally define custom dimension objects when sending a _Custom event_, _Goal conversion_, _Site search_ or _Outlink or download_. Those dimensions will only apply to the current hit. To define a custom dimension, add a new row to the table and enter the ID (index) of the dimension defined for your website and pick a variable or enter a constant string as dimension value.
+
+### E-commerce support
+
+The template can send all types of Piwik PRO ecommerce events (ecommerce v2):
 
 - ProductDetailView
 - AddToCart
@@ -55,10 +61,11 @@ The template can send all types of Piwik PRO ecommerce events (ecommerce v2):
 - CartUpdate
 - Order
 
-You can add product data by providing an array (like *`ecommerce.items`*) and mapping object keys to the according Piwik PRO product structure or define all parameters of a single item manually. 
+You can add product data by providing an array (like _`ecommerce.items`_) and mapping object keys to the according Piwik PRO product structure or define all parameters of a single item manually.
 
-#### Custom Product Dimensions
-If you want to add dimensions to a product, add them either to the source array or for a single item (as result of a custom JavaScript variable) in the following format: 
+#### Custom product dimensions
+
+If you want to add dimensions to a product, add them either to the source array or for a single item (as result of a custom JavaScript variable) in the following format:
 
 ```
 {
@@ -67,7 +74,9 @@ If you want to add dimensions to a product, add them either to the source array 
     5: "Yes"
 }
 ```
-#### Auto-Detect Ecommerce
-When your website provides an ecommerce `dataLayer` in a format suitable for Google Analytics (Universal or GA4) and the event names match the GA4 ecommerce standard event scheme (like `view_item`, `add_to_cart`, `remove_from_cart` and `purchase`), you can use the option **Auto detect from dataLayer event** to populate all parameters without manual configuration. 
 
-If you still use a Universal Analytics `dataLayer`, the most recent ecommerce type containing a `products` key (`purchase`, `remove`, `add` or `detail`) will define the ecommerce event type if the current `dataLayer` event name does not match the GA4 standard names described above.  
+#### Auto-detect e-commerce
+
+When your website provides an ecommerce `dataLayer` in a format suitable for Google Analytics (Universal or GA4) and the event names match the GA4 ecommerce standard event scheme (like `view_item`, `add_to_cart`, `remove_from_cart` and `purchase`), you can use the option **Auto detect from dataLayer event** to populate all parameters without manual configuration.
+
+If you still use a Universal Analytics `dataLayer`, the most recent ecommerce type containing a `products` key (`purchase`, `remove`, `add` or `detail`) will define the ecommerce event type if the current `dataLayer` event name does not match the GA4 standard names described above.

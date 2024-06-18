@@ -90,7 +90,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "CHECKBOX",
         "name": "useCustomTrackerUrl",
-        "checkboxText": "Use custom tracker URL",
+        "checkboxText": "Use a custom tracker URL",
         "simpleValueType": true,
         "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)"
       },
@@ -1389,7 +1389,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "TEXT",
         "name": "customEventTitle",
-        "displayName": "Set custom document title",
+        "displayName": "Set a custom document title",
         "simpleValueType": true,
         "help": "Overwrite document title. This and all events afterwards will use the provided document title."
       },
