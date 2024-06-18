@@ -1,12 +1,4 @@
-﻿___TERMS_OF_SERVICE___
-
-By creating or modifying this file you agree to Google Tag Manager's Community
-Template Gallery Developer Terms of Service available at
-https://developers.google.com/tag-manager/gallery-tos (or such other URL as
-Google may provide), as modified from time to time.
-
-
-___INFO___
+﻿___INFO___
 
 {
   "type": "TAG",
@@ -32,66 +24,6 @@ ___INFO___
 ___TEMPLATE_PARAMETERS___
 
 [
-  {
-    "type": "SELECT",
-    "name": "trackingType",
-    "displayName": "Tracking type",
-    "macrosInSelect": false,
-    "selectItems": [
-      {
-        "value": "pageview",
-        "displayValue": "Pageview"
-      },
-      {
-        "value": "init",
-        "displayValue": "Init only (no pageview)"
-      },
-      {
-        "value": "goal",
-        "displayValue": "Goal"
-      },
-      {
-        "value": "event",
-        "displayValue": "Event"
-      },
-      {
-        "value": "ecom",
-        "displayValue": "Ecommerce"
-      },
-      {
-        "value": "search",
-        "displayValue": "Site search"
-      },
-      {
-        "value": "virtual",
-        "displayValue": "Virtual pageview"
-      },
-      {
-        "value": "impression",
-        "displayValue": "Content Impression"
-      },
-      {
-        "value": "interaction",
-        "displayValue": "Content interaction"
-      },
-      {
-        "value": "link",
-        "displayValue": "Link"
-      },
-      {
-        "value": "setdimension",
-        "displayValue": "Set Dimension"
-      },
-      {
-        "value": "deldimension",
-        "displayValue": "Delete Dimension"
-      }
-    ],
-    "simpleValueType": true,
-    "defaultValue": "pageview",
-    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
-    "alwaysInSummary": true
-  },
   {
     "type": "GROUP",
     "name": "accountSetup",
@@ -200,9 +132,69 @@ ___TEMPLATE_PARAMETERS___
     ]
   },
   {
+    "type": "SELECT",
+    "name": "trackingType",
+    "displayName": "Template type",
+    "macrosInSelect": false,
+    "selectItems": [
+      {
+        "value": "pageview",
+        "displayValue": "Basic tracking code"
+      },
+      {
+        "value": "init",
+        "displayValue": "Basic tracking code (no page view event)"
+      },
+      {
+        "value": "goal",
+        "displayValue": "Goal conversion"
+      },
+      {
+        "value": "event",
+        "displayValue": "Custom event"
+      },
+      {
+        "value": "ecom",
+        "displayValue": "E-commerce events"
+      },
+      {
+        "value": "search",
+        "displayValue": "Site search"
+      },
+      {
+        "value": "virtual",
+        "displayValue": "Virtual page view"
+      },
+      {
+        "value": "impression",
+        "displayValue": "Content impression"
+      },
+      {
+        "value": "interaction",
+        "displayValue": "Content interaction"
+      },
+      {
+        "value": "link",
+        "displayValue": "Downloads and outlinks"
+      },
+      {
+        "value": "setdimension",
+        "displayValue": "Set custom dimension"
+      },
+      {
+        "value": "deldimension",
+        "displayValue": "Delete custom dimension"
+      }
+    ],
+    "simpleValueType": true,
+    "defaultValue": "pageview",
+    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
+    "alwaysInSummary": true
+  },
+  {
     "type": "GROUP",
     "name": "goalSettings",
-    "displayName": "Goal settings",
+    "displayName": "Goal conversion settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -219,7 +211,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "TEXT",
         "name": "conversionValue",
-        "displayName": "Goal Revenue (optional)",
+        "displayName": "Goal conversion revenue (optional)",
         "simpleValueType": true
       }
     ],
@@ -234,31 +226,31 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "eventSettings",
-    "displayName": "Event settings",
+    "displayName": "Custom event settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
         "type": "TEXT",
         "name": "evCategory",
-        "displayName": "Event Category",
+        "displayName": "Custom event category",
         "simpleValueType": true
       },
       {
         "type": "TEXT",
         "name": "evAction",
-        "displayName": "Event Action",
+        "displayName": "Custom event action",
         "simpleValueType": true
       },
       {
         "type": "TEXT",
         "name": "evName",
-        "displayName": "Event Name (optional)",
+        "displayName": "Custom event name (optional)",
         "simpleValueType": true
       },
       {
         "type": "TEXT",
         "name": "evValue",
-        "displayName": "Event Value (optional)",
+        "displayName": "Custom event value (optional)",
         "simpleValueType": true
       }
     ],
@@ -273,7 +265,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "ecomSettings",
-    "displayName": "Ecommerce settings",
+    "displayName": "E-commerce events settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -288,19 +280,19 @@ ___TEMPLATE_PARAMETERS___
           },
           {
             "value": "ecommerceProductDetailView",
-            "displayValue": "Product Detail View"
+            "displayValue": "Product detail view"
           },
           {
             "value": "ecommerceAddToCart",
-            "displayValue": "Add To Cart"
+            "displayValue": "Add to cart"
           },
           {
             "value": "ecommerceRemoveFromCart",
-            "displayValue": "Remove From Cart"
+            "displayValue": "Remove from cart"
           },
           {
             "value": "ecommerceCartUpdate",
-            "displayValue": "Cart Update"
+            "displayValue": "Cart update"
           },
           {
             "value": "ecommerceOrder",
@@ -602,7 +594,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "siteSearchSettings",
-    "displayName": "Site search options",
+    "displayName": "Site search settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -640,7 +632,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "virtualPageviewSettings",
-    "displayName": "Virtual pageview options",
+    "displayName": "Virtual page view settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -853,7 +845,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "linkSettings",
-    "displayName": "Link settings",
+    "displayName": "Downloads and outlinks settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -897,7 +889,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "setDimSettings",
-    "displayName": "Set dimension settings",
+    "displayName": "Set custom dimension settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -937,7 +929,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "delDimSettings",
-    "displayName": "Delete dimension settings",
+    "displayName": "Delete custom dimension settings",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -966,7 +958,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "eventDimSettings",
-    "displayName": "Event scoped dimensions (optional)",
+    "displayName": "Custom dimensions (optional)",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
@@ -1207,7 +1199,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "SELECT",
         "name": "setSessionIdStrictPrivacyMode",
-        "displayName": "Enable Strict Privacy Mode",
+        "displayName": "Don\u0027t collect visitor\u0027s device data",
         "macrosInSelect": true,
         "selectItems": [
           {
@@ -1397,7 +1389,7 @@ ___TEMPLATE_PARAMETERS___
       {
         "type": "TEXT",
         "name": "customEventTitle",
-        "displayName": "Custom document title",
+        "displayName": "Set custom document title",
         "simpleValueType": true,
         "help": "Overwrite document title. This and all events afterwards will use the provided document title."
       },
