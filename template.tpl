@@ -93,63 +93,6 @@ ___TEMPLATE_PARAMETERS___
     "alwaysInSummary": true
   },
   {
-    "type": "LABEL",
-    "name": "lblTypeInfo",
-    "displayName": "Note: your set-up will need one \"pageview\" or \"init only\" . tag in order for all other \"Tracking type\" to work.",
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "goal",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "event",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "ecom",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "search",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "link",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "virtual",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "impression",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "interaction",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "setdimension",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "deldimension",
-        "type": "EQUALS"
-      }
-    ]
-  },
-  {
     "type": "GROUP",
     "name": "accountSetup",
     "displayName": "Account Setup",
