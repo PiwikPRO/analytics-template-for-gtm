@@ -156,11 +156,18 @@ ___TEMPLATE_PARAMETERS___
         "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
       },
       {
+        "type": "CHECKBOX",
+        "name": "useCustomTrackerUrl",
+        "checkboxText": "Use custom tracker URL",
+        "simpleValueType": true,
+        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)"
+      },
+      {
         "type": "TEXT",
         "name": "customTrackerUrl",
-        "displayName": "Use custom tracker URL",
+        "displayName": "Custom tracker URL",
         "simpleValueType": true,
-        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)",
+        "help": "",
         "valueValidators": [
           {
             "type": "REGEX",
@@ -168,6 +175,13 @@ ___TEMPLATE_PARAMETERS___
               "^https://.+"
             ],
             "errorMessage": "Enter a valid URL"
+          }
+        ],
+        "enablingConditions": [
+          {
+            "paramName": "useCustomTrackerUrl",
+            "paramValue": true,
+            "type": "EQUALS"
           }
         ]
       }
