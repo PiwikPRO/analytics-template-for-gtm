@@ -1,4 +1,12 @@
-﻿___INFO___
+﻿___TERMS_OF_SERVICE___
+
+By creating or modifying this file you agree to Google Tag Manager's Community
+Template Gallery Developer Terms of Service available at
+https://developers.google.com/tag-manager/gallery-tos (or such other URL as
+Google may provide), as modified from time to time.
+
+
+___INFO___
 
 {
   "type": "TAG",
@@ -24,6 +32,66 @@
 ___TEMPLATE_PARAMETERS___
 
 [
+  {
+    "type": "SELECT",
+    "name": "trackingType",
+    "displayName": "Template type",
+    "macrosInSelect": false,
+    "selectItems": [
+      {
+        "value": "pageview",
+        "displayValue": "Basic tracking code"
+      },
+      {
+        "value": "init",
+        "displayValue": "Basic tracking code (no page view event)"
+      },
+      {
+        "value": "goal",
+        "displayValue": "Goal conversion"
+      },
+      {
+        "value": "event",
+        "displayValue": "Custom event"
+      },
+      {
+        "value": "ecom",
+        "displayValue": "E-commerce events"
+      },
+      {
+        "value": "search",
+        "displayValue": "Site search"
+      },
+      {
+        "value": "virtual",
+        "displayValue": "Virtual page view"
+      },
+      {
+        "value": "impression",
+        "displayValue": "Content impression"
+      },
+      {
+        "value": "interaction",
+        "displayValue": "Content interaction"
+      },
+      {
+        "value": "link",
+        "displayValue": "Downloads and outlinks"
+      },
+      {
+        "value": "setdimension",
+        "displayValue": "Set custom dimensions"
+      },
+      {
+        "value": "deldimension",
+        "displayValue": "Delete custom dimension"
+      }
+    ],
+    "simpleValueType": true,
+    "defaultValue": "pageview",
+    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
+    "alwaysInSummary": true
+  },
   {
     "type": "GROUP",
     "name": "accountSetup",
@@ -130,66 +198,6 @@ ___TEMPLATE_PARAMETERS___
         "type": "EQUALS"
       }
     ]
-  },
-  {
-    "type": "SELECT",
-    "name": "trackingType",
-    "displayName": "Template type",
-    "macrosInSelect": false,
-    "selectItems": [
-      {
-        "value": "pageview",
-        "displayValue": "Basic tracking code"
-      },
-      {
-        "value": "init",
-        "displayValue": "Basic tracking code (no page view event)"
-      },
-      {
-        "value": "goal",
-        "displayValue": "Goal conversion"
-      },
-      {
-        "value": "event",
-        "displayValue": "Custom event"
-      },
-      {
-        "value": "ecom",
-        "displayValue": "E-commerce events"
-      },
-      {
-        "value": "search",
-        "displayValue": "Site search"
-      },
-      {
-        "value": "virtual",
-        "displayValue": "Virtual page view"
-      },
-      {
-        "value": "impression",
-        "displayValue": "Content impression"
-      },
-      {
-        "value": "interaction",
-        "displayValue": "Content interaction"
-      },
-      {
-        "value": "link",
-        "displayValue": "Downloads and outlinks"
-      },
-      {
-        "value": "setdimension",
-        "displayValue": "Set custom dimension"
-      },
-      {
-        "value": "deldimension",
-        "displayValue": "Delete custom dimension"
-      }
-    ],
-    "simpleValueType": true,
-    "defaultValue": "pageview",
-    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
-    "alwaysInSummary": true
   },
   {
     "type": "GROUP",
@@ -888,46 +896,6 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "GROUP",
-    "name": "setDimSettings",
-    "displayName": "Set custom dimension settings",
-    "groupStyle": "NO_ZIPPY",
-    "subParams": [
-      {
-        "type": "TEXT",
-        "name": "customDimensionID",
-        "displayName": "Custom dimension ID",
-        "simpleValueType": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          },
-          {
-            "type": "NUMBER"
-          }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "customDimensionValue",
-        "displayName": "Custom dimension value",
-        "simpleValueType": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "setdimension",
-        "type": "EQUALS"
-      }
-    ]
-  },
-  {
-    "type": "GROUP",
     "name": "delDimSettings",
     "displayName": "Delete custom dimension settings",
     "groupStyle": "NO_ZIPPY",
@@ -957,14 +925,14 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "GROUP",
-    "name": "eventDimSettings",
-    "displayName": "Custom dimensions (optional)",
+    "name": "customDimSettings",
+    "displayName": "Custom dimensions",
     "groupStyle": "NO_ZIPPY",
     "subParams": [
       {
         "type": "PARAM_TABLE",
         "name": "eventDimensions",
-        "displayName": "These custom dimensions will only be added to the selected event (e.g. custom event, goal conversion)",
+        "displayName": "Define custom dimensions to be set",
         "paramTableColumns": [
           {
             "param": {
@@ -1014,6 +982,11 @@ ___TEMPLATE_PARAMETERS___
       {
         "paramName": "trackingType",
         "paramValue": "link",
+        "type": "EQUALS"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "setdimension",
         "type": "EQUALS"
       }
     ]
@@ -1643,9 +1616,12 @@ if (data.trackingType == 'event') {
   data.gtmOnSuccess();
   
 } else if (data.trackingType == 'setdimension') {
-
+  
   //set dimension
-  _pp(['setCustomDimensionValue', data.customDimensionID, data.customDimensionValue]);
+  if (data.eventDimensions) data.eventDimensions.forEach(d => {
+    if (d.dimensionValue) 
+      _pp(['setCustomDimensionValue', d.dimensionId, d.dimensionValue]);
+  });  
   data.gtmOnSuccess();
   
 } else if (data.trackingType == 'deldimension') {
