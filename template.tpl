@@ -1145,6 +1145,28 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "SELECT",
+        "name": "ipCollectionMode",
+        "displayName": "IP collection mode",
+        "help": "Collect, mask or completely drop IP addresses. The level of IP address masking and geolocation data impact can be adjusted in the Piwik PRO Administration module under Privacy settings. Accepted variable values: collectIpAddresses, anonymizeIpAddresses, removeIpAddresses.",
+        "macrosInSelect": true,
+        "defaultValue": collectIpAddresses,
+        "selectItems": [
+          {
+            "value": collectIpAddresses,
+            "displayValue": "Collect visitors’ IP addresses"
+          },
+          {
+            "value": anonymizeIpAddresses,
+            "displayValue": "Mask IP addresses"
+          },
+          {
+            "value": removeIpAddresses,
+            "displayValue": "Don't collect visitors’ IP addresses"
+          }
+        ],
+      },
+      {
+        "type": "SELECT",
         "name": "useCookies",
         "displayName": "Use visitor cookies",
         "macrosInSelect": true,
@@ -1665,6 +1687,18 @@ if (data.trackingType == 'event') {
     _pp(['setReferralCookieTimeout', data.referralCookieTimeout]);
   }
   
+  /********************
+    IP Collection Handling
+  ********************/
+
+  if (data.ipCollectionMode == "anonymizeIpAddresses") {
+    _pp(['setUserIsAnonymous', 1]);
+  }
+
+  if (data.ipCollectionMode == "removeIpAddresses") {
+    _pp(['setIpTracking', false]);
+  }
+
   /********************************
     Account setup & Data collection
   *********************************/
