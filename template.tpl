@@ -150,13 +150,6 @@ ___TEMPLATE_PARAMETERS___
       },
       {
         "type": "CHECKBOX",
-        "name": "useAlternativeNamespace",
-        "checkboxText": "Use an alternative namespace",
-        "simpleValueType": true,
-        "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
-      },
-      {
-        "type": "CHECKBOX",
         "name": "useCustomTrackerUrl",
         "checkboxText": "Use a custom tracker URL",
         "simpleValueType": true,
@@ -1394,7 +1387,14 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Override page referrer",
         "simpleValueType": true,
         "help": "Define a custom page referrer. This and all events afterwards will use the provided referrer value."
-      }
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "useAlternativeNamespace",
+        "checkboxText": "Use an alternative namespace",
+        "simpleValueType": true,
+        "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
+      },
     ]
   }
 ]
