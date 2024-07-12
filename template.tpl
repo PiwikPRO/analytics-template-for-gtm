@@ -1166,6 +1166,10 @@ ___TEMPLATE_PARAMETERS___
           {
             "value": removeIpAddresses,
             "displayValue": "Don't collect visitors’ IP addresses"
+          },
+          {
+            "value": "followGCM",
+            "displayValue": "Follow Google Consent Mode"
           }
         ],
       },
@@ -1182,6 +1186,10 @@ ___TEMPLATE_PARAMETERS___
           {
             "value": false,
             "displayValue": "false"
+          },
+          {
+            "value": "followGCM",
+            "displayValue": "Follow Google Consent Mode"
           }
         ],
         "simpleValueType": true,
@@ -1201,6 +1209,10 @@ ___TEMPLATE_PARAMETERS___
           {
             "value": false,
             "displayValue": "false"
+          },
+          {
+            "value": "followGCM",
+            "displayValue": "Follow Google Consent Mode"
           }
         ],
         "simpleValueType": true,
@@ -1434,7 +1446,9 @@ if (data.useAlternativeNamespace == true) {
   jsTracker = data.instanceURL + "/" + "ppms.js";
 }
 
-const gcmConsentGranted = (data.useConsentMode == true) ? isConsentGranted('analytics_storage') : true;
+const gcmConsentGrantedCookies = (data.useCookies == "followGCM") ? isConsentGranted('analytics_storage') : true;
+const gcmConsentGrantedIp = (data.ipCollectionMode == "followGCM") ? isConsentGranted('analytics_storage') : true;
+const gcmConsentGrantedDeviceData = (data.setSessionIdStrictPrivacyMode == "followGCM") ? isConsentGranted('analytics_storage') : true;
 
 //prevent missing type from updated tags
 data.trackingType = data.trackingType || "pageview";
@@ -1653,13 +1667,13 @@ if (data.trackingType == 'event') {
   
   //init only or pageview   
   
-  
+
   /********************
     Cookie Handling
   ********************/
 
   // Option to disable tracking cookies
-  if (data.useCookies == false) {
+  if (data.useCookies == false || !gcmConsentGrantedCookies) {
     _pp(['disableCookies']); 
   }
 
@@ -1692,7 +1706,7 @@ if (data.trackingType == 'event') {
     _pp(['setUserIsAnonymous', 1]);
   }
 
-  if (data.ipCollectionMode == "removeIpAddresses") {
+  if (data.ipCollectionMode == "removeIpAddresses" || !gcmConsentGrantedIp) {
     _pp(['setIpTracking', false]);
   }
 
@@ -1753,7 +1767,7 @@ if (data.trackingType == 'event') {
   }
 
   // Setting the strict privacy option
-  _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true)]);
+  _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true) || !gcmConsentGrantedDeviceData]);
   
   // Link tracking
   if (data.enableLinkTracking == true) {
