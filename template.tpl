@@ -205,9 +205,18 @@ ___TEMPLATE_PARAMETERS___
         "simpleValueType": true,
         "valueValidators": [
           {
-            "type": "POSITIVE_NUMBER"
+            "type": "NON_EMPTY"
+          },
+          {
+            "type": "STRING_LENGTH",
+            "args": [
+              36,
+              36
+            ],
+            "errorMessage": "Please provide a valid goal ID"
           }
-        ]
+        ],
+        "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38",
       },
       {
         "type": "TEXT",
