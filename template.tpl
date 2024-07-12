@@ -156,6 +156,14 @@ ___TEMPLATE_PARAMETERS___
         "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)"
       },
       {
+        "type": "CHECKBOX",
+        "name": "disableTrackerInjection",
+        "checkboxText": "Disable injection of the tracking client",
+        "simpleValueType": true,
+        "help": "Disable injection of the Piwik PRO JavaScript Tracking Client (JSTC). This setting is only useful in case you are hosting JSTC (ppms.js) on your own (e.g. caching in server-side GTM).",
+        "defaultValue": false
+      },
+      {
         "type": "TEXT",
         "name": "customTrackerUrl",
         "displayName": "Custom tracker URL",
@@ -1116,7 +1124,8 @@ ___TEMPLATE_PARAMETERS___
         "name": "setTrackingSource",
         "checkboxText": "Send the traffic source to the tracker debugger",
         "simpleValueType": true,
-        "help": "If checked, you\u0027ll see Google Tag Manager as a traffic source in Piwik PRO \u003e Analytics \u003e Settings \u003e Tracker debugger. (Available for 16.12+)"
+        "help": "If checked, you\u0027ll see Google Tag Manager as a traffic source in Piwik PRO \u003e Analytics \u003e Settings \u003e Tracker debugger. (Available for 16.12+)",
+        "defaultValue": true
       }
     ],
     "enablingConditions": [
@@ -1755,7 +1764,7 @@ if (data.trackingType == 'event') {
 
   // Traffic source tracking
   if (data.setTrackingSource == true) {
-    _pp(['setTrackingSource', 'gtm', '1.0.3']);
+    _pp(['setTrackingSource', 'gtm', '2.0.0']);
   }
 
   // Setting the User ID
@@ -1807,7 +1816,10 @@ if (data.trackingType == 'event') {
   const injectTracker = jsTracker => {
     _pp(["setTrackerUrl", trackerURL]);
     _pp(["setSiteId", data.websiteID]);
-    injectScript(jsTracker, onSuccess, onFailure, jsTracker);
+
+    if (data.disableTrackerInjection == false) {
+      injectScript(jsTracker, onSuccess, onFailure, jsTracker);
+    }
   };
   // Launch the tracking code
   injectTracker(jsTracker); 
