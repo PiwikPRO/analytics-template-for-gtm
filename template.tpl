@@ -33,888 +33,891 @@ ___TEMPLATE_PARAMETERS___
 
 [
   {
-    "type": "SELECT",
-    "name": "trackingType",
-    "displayName": "Template type",
+    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
     "macrosInSelect": false,
+    "alwaysInSummary": true,
     "selectItems": [
       {
-        "value": "pageview",
-        "displayValue": "Basic tracking code"
+        "displayValue": "Basic tracking code",
+        "value": "pageview"
       },
       {
-        "value": "init",
-        "displayValue": "Basic tracking code (no page view event)"
+        "displayValue": "Basic tracking code (no page view event)",
+        "value": "init"
       },
       {
-        "value": "goal",
-        "displayValue": "Goal conversion"
+        "displayValue": "Goal conversion",
+        "value": "goal"
       },
       {
-        "value": "event",
-        "displayValue": "Custom event"
+        "displayValue": "Custom event",
+        "value": "event"
       },
       {
-        "value": "ecom",
-        "displayValue": "E-commerce events"
+        "displayValue": "E-commerce events",
+        "value": "ecom"
       },
       {
-        "value": "search",
-        "displayValue": "Site search"
+        "displayValue": "Site search",
+        "value": "search"
       },
       {
-        "value": "virtual",
-        "displayValue": "Virtual page view"
+        "displayValue": "Virtual page view",
+        "value": "virtual"
       },
       {
-        "value": "impression",
-        "displayValue": "Content impression"
+        "displayValue": "Content impression",
+        "value": "impression"
       },
       {
-        "value": "interaction",
-        "displayValue": "Content interaction"
+        "displayValue": "Content interaction",
+        "value": "interaction"
       },
       {
-        "value": "link",
-        "displayValue": "Downloads and outlinks"
+        "displayValue": "Downloads and outlinks",
+        "value": "link"
       },
       {
-        "value": "setdimension",
-        "displayValue": "Set custom dimensions"
+        "displayValue": "Set custom dimensions",
+        "value": "setdimension"
       },
       {
-        "value": "deldimension",
-        "displayValue": "Delete custom dimension"
+        "displayValue": "Delete custom dimension",
+        "value": "deldimension"
       }
     ],
-    "simpleValueType": true,
+    "displayName": "Template type",
     "defaultValue": "pageview",
-    "help": "select tracking type / action to perform after initialization. Note: pick \"Init only\" to use a virtual page view tag or custom JavaScript code to track pages manually.",
-    "alwaysInSummary": true
+    "simpleValueType": true,
+    "name": "trackingType",
+    "type": "SELECT"
   },
   {
-    "type": "GROUP",
-    "name": "accountSetup",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "pageview"
+      },
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "init"
+      }
+    ],
     "displayName": "Account Setup",
+    "name": "accountSetup",
     "groupStyle": "ZIPPY_OPEN",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "instanceURL",
-        "displayName": "Account address",
-        "simpleValueType": true,
-        "valueHint": "https://example.piwik.pro",
         "help": "Your account address in Piwik PRO.",
         "valueValidators": [
           {
-            "type": "REGEX",
             "args": [
               "^https://.*"
             ],
-            "errorMessage": "The URL must start with https://"
+            "errorMessage": "The URL must start with https://",
+            "type": "REGEX"
           },
           {
-            "type": "NON_EMPTY",
-            "errorMessage": "Please provide a valid instance URL"
+            "errorMessage": "Please provide a valid instance URL",
+            "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "displayName": "Account address",
+        "simpleValueType": true,
+        "name": "instanceURL",
+        "type": "TEXT",
+        "valueHint": "https://example.piwik.pro"
       },
       {
-        "type": "TEXT",
-        "name": "websiteID",
-        "displayName": "Site or app ID",
-        "simpleValueType": true,
+        "help": "The unique ID for your site or app in Piwik PRO.",
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           },
           {
-            "type": "STRING_LENGTH",
             "args": [
               36,
               36
             ],
-            "errorMessage": "Please provide a valid website ID"
+            "errorMessage": "Please provide a valid website ID",
+            "type": "STRING_LENGTH"
           }
         ],
-        "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38",
-        "help": "The unique ID for your site or app in Piwik PRO."
+        "displayName": "Site or app ID",
+        "simpleValueType": true,
+        "name": "websiteID",
+        "type": "TEXT",
+        "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38"
       },
       {
-        "type": "TEXT",
-        "name": "analyticsDomains",
+        "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more hosts if you track multiple sites with the same tracking code. Separate entries with a comma. Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
         "displayName": "Site or app address",
         "simpleValueType": true,
-        "help": "You\u0027ll collect data for this site or app. Enter a domain like example.com or a host like www.example.com. You can add more hosts if you track multiple sites with the same tracking code. Separate entries with a comma. Leave blank if you want to keep the default setting from your account. You can use * as a wildcard or a leading \".\"",
+        "name": "analyticsDomains",
+        "type": "TEXT",
         "valueHint": "example.com"
       },
       {
-        "type": "CHECKBOX",
+        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)",
+        "simpleValueType": true,
         "name": "useCustomTrackerUrl",
         "checkboxText": "Use a custom tracker URL",
-        "simpleValueType": true,
-        "help": "Optionally define a custom endpoint to send tracking requests to (for use with Piwik PRO First Party Collector or server-side Google Tag Manager)"
+        "type": "CHECKBOX"
       },
       {
-        "type": "CHECKBOX",
+        "help": "Disable injection of the Piwik PRO JavaScript Tracking Client (JSTC). This setting is only useful in case you are hosting JSTC (ppms.js) on your own (e.g. caching in server-side GTM).",
+        "defaultValue": false,
+        "simpleValueType": true,
         "name": "disableTrackerInjection",
         "checkboxText": "Disable injection of the tracking client",
-        "simpleValueType": true,
-        "help": "Disable injection of the Piwik PRO JavaScript Tracking Client (JSTC). This setting is only useful in case you are hosting JSTC (ppms.js) on your own (e.g. caching in server-side GTM).",
-        "defaultValue": false
+        "type": "CHECKBOX"
       },
       {
-        "type": "TEXT",
-        "name": "customTrackerUrl",
-        "displayName": "Custom tracker URL",
-        "simpleValueType": true,
         "help": "",
         "valueValidators": [
           {
-            "type": "REGEX",
             "args": [
               "^https://.+"
             ],
-            "errorMessage": "Enter a valid URL"
+            "errorMessage": "Enter a valid URL",
+            "type": "REGEX"
           }
         ],
         "enablingConditions": [
           {
             "paramName": "useCustomTrackerUrl",
-            "paramValue": true,
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": true
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "pageview",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "init",
-        "type": "EQUALS"
+        ],
+        "displayName": "Custom tracker URL",
+        "simpleValueType": true,
+        "name": "customTrackerUrl",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "goalSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "goal"
+      }
+    ],
     "displayName": "Goal conversion settings",
+    "name": "goalSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "goalId",
-        "displayName": "Goal ID",
-        "simpleValueType": true,
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           },
           {
-            "type": "STRING_LENGTH",
             "args": [
               36,
               36
             ],
-            "errorMessage": "Please provide a valid goal ID"
+            "errorMessage": "Please provide a valid goal ID",
+            "type": "STRING_LENGTH"
           }
         ],
-        "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38",
+        "displayName": "Goal ID",
+        "simpleValueType": true,
+        "name": "goalId",
+        "type": "TEXT",
+        "valueHint": "b30e538d-4b05-4a75-ae25-7eb565901f38"
       },
       {
-        "type": "TEXT",
-        "name": "conversionValue",
         "displayName": "Goal conversion revenue (optional)",
-        "simpleValueType": true
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "goal",
-        "type": "EQUALS"
+        "simpleValueType": true,
+        "name": "conversionValue",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "eventSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "event"
+      }
+    ],
     "displayName": "Custom event settings",
+    "name": "eventSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "evCategory",
         "displayName": "Custom event category",
-        "simpleValueType": true
+        "simpleValueType": true,
+        "name": "evCategory",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "evAction",
         "displayName": "Custom event action",
-        "simpleValueType": true
+        "simpleValueType": true,
+        "name": "evAction",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "evName",
         "displayName": "Custom event name (optional)",
-        "simpleValueType": true
+        "simpleValueType": true,
+        "name": "evName",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "evValue",
         "displayName": "Custom event value (optional)",
-        "simpleValueType": true
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "event",
-        "type": "EQUALS"
+        "simpleValueType": true,
+        "name": "evValue",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "ecomSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "ecom"
+      }
+    ],
     "displayName": "E-commerce events settings",
+    "name": "ecomSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "SELECT",
-        "name": "ecomType",
-        "displayName": "Ecommerce type",
         "macrosInSelect": false,
         "selectItems": [
           {
-            "value": "ecommerceAutoDetect",
-            "displayValue": "Auto detect from dataLayer event"
+            "displayValue": "Auto detect from dataLayer event",
+            "value": "ecommerceAutoDetect"
           },
           {
-            "value": "ecommerceProductDetailView",
-            "displayValue": "Product detail view"
+            "displayValue": "Product detail view",
+            "value": "ecommerceProductDetailView"
           },
           {
-            "value": "ecommerceAddToCart",
-            "displayValue": "Add to cart"
+            "displayValue": "Add to cart",
+            "value": "ecommerceAddToCart"
           },
           {
-            "value": "ecommerceRemoveFromCart",
-            "displayValue": "Remove from cart"
+            "displayValue": "Remove from cart",
+            "value": "ecommerceRemoveFromCart"
           },
           {
-            "value": "ecommerceCartUpdate",
-            "displayValue": "Cart update"
+            "displayValue": "Cart update",
+            "value": "ecommerceCartUpdate"
           },
           {
-            "value": "ecommerceOrder",
-            "displayValue": "Order"
+            "displayValue": "Order",
+            "value": "ecommerceOrder"
           }
         ],
+        "displayName": "Ecommerce type",
+        "defaultValue": "ecommerceAutoDetect",
         "simpleValueType": true,
-        "defaultValue": "ecommerceAutoDetect"
+        "name": "ecomType",
+        "type": "SELECT"
       },
       {
-        "type": "TEXT",
-        "name": "ecommerceUpdateTotal",
-        "displayName": "Grand total (cart update)",
-        "simpleValueType": true,
         "enablingConditions": [
           {
             "paramName": "ecomType",
-            "paramValue": "ecommerceCartUpdate",
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": "ecommerceCartUpdate"
           }
-        ]
+        ],
+        "displayName": "Grand total (cart update)",
+        "simpleValueType": true,
+        "name": "ecommerceUpdateTotal",
+        "type": "TEXT"
       },
       {
-        "type": "GROUP",
-        "name": "ecommerceProductDefinition",
+        "enablingConditions": [
+          {
+            "paramName": "ecomType",
+            "type": "NOT_EQUALS",
+            "paramValue": "ecommerceAutoDetect"
+          }
+        ],
         "displayName": "Product data",
+        "name": "ecommerceProductDefinition",
         "groupStyle": "NO_ZIPPY",
+        "type": "GROUP",
         "subParams": [
           {
-            "type": "SELECT",
-            "name": "ecommerceProductType",
-            "displayName": "Product data source",
             "macrosInSelect": false,
             "selectItems": [
               {
-                "value": "array",
-                "displayValue": "Products array"
+                "displayValue": "Products array",
+                "value": "array"
               },
               {
-                "value": "single",
-                "displayValue": "Single Product"
+                "displayValue": "Single Product",
+                "value": "single"
               }
             ],
+            "displayName": "Product data source",
+            "defaultValue": "array",
             "simpleValueType": true,
-            "defaultValue": "array"
+            "name": "ecommerceProductType",
+            "type": "SELECT"
           },
           {
-            "type": "TEXT",
-            "name": "productsArray",
-            "displayName": "Products array source",
-            "simpleValueType": true,
             "help": "Enter a JS or dataLayer variable that contains an array of product objects and map field names",
             "enablingConditions": [
               {
                 "paramName": "ecommerceProductType",
-                "paramValue": "array",
-                "type": "EQUALS"
+                "type": "EQUALS",
+                "paramValue": "array"
               }
             ],
             "valueValidators": [
               {
                 "type": "NON_EMPTY"
               }
-            ]
+            ],
+            "displayName": "Products array source",
+            "simpleValueType": true,
+            "name": "productsArray",
+            "type": "TEXT"
           },
           {
-            "type": "GROUP",
-            "name": "productsArrayMapping",
+            "help": "Define keys for the following attributes in your products array. This tag will map the values to the Piwik PRO ecommerce scheme.",
+            "enablingConditions": [
+              {
+                "paramName": "ecommerceProductType",
+                "type": "EQUALS",
+                "paramValue": "array"
+              }
+            ],
             "displayName": "Product data mapping",
+            "name": "productsArrayMapping",
             "groupStyle": "NO_ZIPPY",
+            "type": "GROUP",
             "subParams": [
               {
-                "type": "TEXT",
-                "name": "productSKUKey",
-                "displayName": "Product SKU key",
-                "simpleValueType": true,
                 "valueValidators": [
                   {
                     "type": "NON_EMPTY"
                   }
                 ],
-                "defaultValue": "item_id"
+                "displayName": "Product SKU key",
+                "defaultValue": "item_id",
+                "simpleValueType": true,
+                "name": "productSKUKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productNameKey",
                 "displayName": "Product name key",
+                "defaultValue": "item_name",
                 "simpleValueType": true,
-                "defaultValue": "item_name"
+                "name": "productNameKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productCategoryKey",
                 "displayName": "Product category key",
+                "defaultValue": "item_category",
                 "simpleValueType": true,
-                "defaultValue": "item_category"
+                "name": "productCategoryKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productPriceKey",
                 "displayName": "Product price key",
+                "defaultValue": "price",
                 "simpleValueType": true,
-                "defaultValue": "price"
+                "name": "productPriceKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productQuantityKey",
                 "displayName": "Product quantity key",
+                "defaultValue": "quantity",
                 "simpleValueType": true,
-                "defaultValue": "quantity"
+                "name": "productQuantityKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productBrandKey",
                 "displayName": "Product brand key",
+                "defaultValue": "item_brand",
                 "simpleValueType": true,
-                "defaultValue": "item_brand"
+                "name": "productBrandKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productVariantKey",
                 "displayName": "Product variant key",
+                "defaultValue": "item_variant",
                 "simpleValueType": true,
-                "defaultValue": "item_variant"
+                "name": "productVariantKey",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productDimensionsKey",
+                "help": "Note: additional dimensions must be set in the following format: {1: \u0027value1\u0027, 2: \u0027value2\u0027 }, where numbers match the dimension´s IDs",
                 "displayName": "Product custom dimensions key",
                 "simpleValueType": true,
-                "help": "Note: additional dimensions must be set in the following format: {1: \u0027value1\u0027, 2: \u0027value2\u0027 }, where numbers match the dimension´s IDs"
+                "name": "productDimensionsKey",
+                "type": "TEXT"
               }
-            ],
+            ]
+          },
+          {
             "enablingConditions": [
               {
                 "paramName": "ecommerceProductType",
-                "paramValue": "array",
-                "type": "EQUALS"
+                "type": "EQUALS",
+                "paramValue": "single"
               }
             ],
-            "help": "Define keys for the following attributes in your products array. This tag will map the values to the Piwik PRO ecommerce scheme."
-          },
-          {
-            "type": "GROUP",
-            "name": "singleProductData",
             "displayName": "Single product data",
+            "name": "singleProductData",
             "groupStyle": "NO_ZIPPY",
+            "type": "GROUP",
             "subParams": [
               {
-                "type": "TEXT",
-                "name": "productSKU",
-                "displayName": "Product SKU",
-                "simpleValueType": true,
                 "valueValidators": [
                   {
                     "type": "NON_EMPTY"
                   }
-                ]
+                ],
+                "displayName": "Product SKU",
+                "simpleValueType": true,
+                "name": "productSKU",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productName",
                 "displayName": "Product name",
-                "simpleValueType": true
+                "simpleValueType": true,
+                "name": "productName",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productCategory",
                 "displayName": "Product category",
-                "simpleValueType": true
+                "simpleValueType": true,
+                "name": "productCategory",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productPrice",
+                "enablingConditions": [],
                 "displayName": "Product price",
                 "simpleValueType": true,
-                "enablingConditions": []
+                "name": "productPrice",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productQuantity",
                 "displayName": "Product quantity",
-                "simpleValueType": true
+                "simpleValueType": true,
+                "name": "productQuantity",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productBrand",
                 "displayName": "Product brand",
-                "simpleValueType": true
+                "simpleValueType": true,
+                "name": "productBrand",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productVariant",
                 "displayName": "Product variant",
-                "simpleValueType": true
+                "simpleValueType": true,
+                "name": "productVariant",
+                "type": "TEXT"
               },
               {
-                "type": "TEXT",
-                "name": "productDimensions",
+                "help": "Note: additional dimensions must be set in the following format: {1: \u0027value1\u0027, 2: \u0027value2\u0027 }, where numbers match the dimension´s IDs",
                 "displayName": "Product custom dimensions",
                 "simpleValueType": true,
-                "help": "Note: additional dimensions must be set in the following format: {1: \u0027value1\u0027, 2: \u0027value2\u0027 }, where numbers match the dimension´s IDs"
-              }
-            ],
-            "enablingConditions": [
-              {
-                "paramName": "ecommerceProductType",
-                "paramValue": "single",
-                "type": "EQUALS"
+                "name": "productDimensions",
+                "type": "TEXT"
               }
             ]
-          }
-        ],
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "ecommerceAutoDetect",
-            "type": "NOT_EQUALS"
           }
         ]
       },
       {
-        "type": "GROUP",
-        "name": "ecommercePaymentInformation",
+        "enablingConditions": [
+          {
+            "paramName": "ecomType",
+            "type": "EQUALS",
+            "paramValue": "ecommerceOrder"
+          }
+        ],
         "displayName": "Payment information",
+        "name": "ecommercePaymentInformation",
         "groupStyle": "NO_ZIPPY",
+        "type": "GROUP",
         "subParams": [
           {
-            "type": "TEXT",
-            "name": "orderId",
+            "enablingConditions": [],
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY"
+              }
+            ],
             "displayName": "Order ID",
             "simpleValueType": true,
+            "name": "orderId",
+            "type": "TEXT"
+          },
+          {
             "enablingConditions": [],
             "valueValidators": [
               {
                 "type": "NON_EMPTY"
               }
-            ]
-          },
-          {
-            "type": "TEXT",
-            "name": "grandTotal",
+            ],
             "displayName": "Grand total",
             "simpleValueType": true,
-            "enablingConditions": [],
-            "valueValidators": [
-              {
-                "type": "NON_EMPTY"
-              }
-            ]
+            "name": "grandTotal",
+            "type": "TEXT"
           },
           {
-            "type": "TEXT",
-            "name": "subTotal",
+            "enablingConditions": [],
             "displayName": "Sub Total",
             "simpleValueType": true,
-            "enablingConditions": []
+            "name": "subTotal",
+            "type": "TEXT"
           },
           {
-            "type": "TEXT",
-            "name": "tax",
+            "enablingConditions": [],
             "displayName": "Tax",
             "simpleValueType": true,
-            "enablingConditions": []
+            "name": "tax",
+            "type": "TEXT"
           },
           {
-            "type": "TEXT",
-            "name": "shipping",
+            "enablingConditions": [],
             "displayName": "Shipping",
             "simpleValueType": true,
-            "enablingConditions": []
+            "name": "shipping",
+            "type": "TEXT"
           },
           {
-            "type": "TEXT",
-            "name": "discount",
-            "displayName": "Discount",
-            "simpleValueType": true,
             "enablingConditions": [],
-            "defaultValue": ""
-          }
-        ],
-        "enablingConditions": [
-          {
-            "paramName": "ecomType",
-            "paramValue": "ecommerceOrder",
-            "type": "EQUALS"
+            "displayName": "Discount",
+            "defaultValue": "",
+            "simpleValueType": true,
+            "name": "discount",
+            "type": "TEXT"
           }
         ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "ecom",
-        "type": "EQUALS"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "siteSearchSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "search"
+      }
+    ],
     "displayName": "Site search settings",
+    "name": "siteSearchSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "searchKeyword",
+        "valueValidators": [
+          {
+            "type": "NON_EMPTY"
+          }
+        ],
         "displayName": "Keyword",
         "simpleValueType": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ]
+        "name": "searchKeyword",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "searchCategory",
         "displayName": "Category (optional)",
-        "simpleValueType": true
+        "simpleValueType": true,
+        "name": "searchCategory",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "searchCount",
         "displayName": "Result count (optional)",
-        "simpleValueType": true
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "search",
-        "type": "EQUALS"
+        "simpleValueType": true,
+        "name": "searchCount",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "virtualPageviewSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "virtual"
+      }
+    ],
     "displayName": "Virtual page view settings",
+    "name": "virtualPageviewSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "virtualPageTitle",
+        "valueValidators": [
+          {
+            "type": "NON_EMPTY"
+          }
+        ],
         "displayName": "Virtual page title",
         "simpleValueType": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ]
+        "name": "virtualPageTitle",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "virtualPageUrl",
-        "displayName": "Virtual page URL (optional)",
-        "simpleValueType": true,
         "valueValidators": [
           {
-            "type": "REGEX",
             "args": [
               "^https?://.*"
-            ]
+            ],
+            "type": "REGEX"
           },
           {
-            "type": "REGEX",
             "args": [
               ".*\\/$"
-            ]
+            ],
+            "type": "REGEX"
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "virtual",
-        "type": "EQUALS"
+        ],
+        "displayName": "Virtual page URL (optional)",
+        "simpleValueType": true,
+        "name": "virtualPageUrl",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "contentInteractionSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "interaction"
+      }
+    ],
     "displayName": "Content interaction settings",
+    "name": "contentInteractionSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "SELECT",
-        "name": "interactionType",
-        "displayName": "Type",
         "macrosInSelect": false,
         "selectItems": [
           {
-            "value": "piece",
-            "displayValue": "Content piece"
+            "displayValue": "Content piece",
+            "value": "piece"
           },
           {
-            "value": "node",
-            "displayValue": "Node"
+            "displayValue": "Node",
+            "value": "node"
           }
         ],
+        "displayName": "Type",
+        "defaultValue": "piece",
         "simpleValueType": true,
-        "defaultValue": "piece"
+        "name": "interactionType",
+        "type": "SELECT"
       },
       {
-        "type": "TEXT",
-        "name": "domNode",
+        "enablingConditions": [
+          {
+            "paramName": "interactionType",
+            "type": "EQUALS",
+            "paramValue": "node"
+          }
+        ],
+        "valueValidators": [
+          {
+            "type": "NON_EMPTY"
+          }
+        ],
         "displayName": "DOM node",
         "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "interactionType",
-            "paramValue": "node",
-            "type": "EQUALS"
-          }
-        ],
+        "name": "domNode",
+        "type": "TEXT"
+      },
+      {
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "contentInteraction",
+        ],
         "displayName": "Content interaction",
         "simpleValueType": true,
+        "name": "contentInteraction",
+        "type": "TEXT"
+      },
+      {
+        "enablingConditions": [
+          {
+            "paramName": "interactionType",
+            "type": "EQUALS",
+            "paramValue": "piece"
+          }
+        ],
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
-      },
-      {
-        "type": "TEXT",
+        ],
+        "displayName": "Content name",
+        "simpleValueType": true,
         "name": "contentName",
-        "displayName": "Content name",
-        "simpleValueType": true,
+        "type": "TEXT"
+      },
+      {
         "enablingConditions": [
           {
             "paramName": "interactionType",
-            "paramValue": "piece",
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": "piece"
           }
         ],
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
-      },
-      {
-        "type": "TEXT",
+        ],
+        "displayName": "Content piece",
+        "simpleValueType": true,
         "name": "contentPiece",
-        "displayName": "Content piece",
-        "simpleValueType": true,
-        "enablingConditions": [
-          {
-            "paramName": "interactionType",
-            "paramValue": "piece",
-            "type": "EQUALS"
-          }
-        ],
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ]
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "contentTarget",
-        "displayName": "Content target",
-        "simpleValueType": true,
         "enablingConditions": [
           {
             "paramName": "interactionType",
-            "paramValue": "piece",
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": "piece"
           }
         ],
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "interaction",
-        "type": "EQUALS"
+        ],
+        "displayName": "Content target",
+        "simpleValueType": true,
+        "name": "contentTarget",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "contentImpressionSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "impression"
+      }
+    ],
     "displayName": "Content impression settings",
+    "name": "contentImpressionSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "contentNameImpression",
+        "enablingConditions": [],
+        "valueValidators": [
+          {
+            "type": "NON_EMPTY"
+          }
+        ],
         "displayName": "Content name",
         "simpleValueType": true,
+        "name": "contentNameImpression",
+        "type": "TEXT"
+      },
+      {
         "enablingConditions": [],
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
-      },
-      {
-        "type": "TEXT",
-        "name": "contentPieceImpression",
+        ],
         "displayName": "Content piece",
         "simpleValueType": true,
-        "enablingConditions": [],
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ]
+        "name": "contentPieceImpression",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "contentTargetImpression",
-        "displayName": "Content target",
-        "simpleValueType": true,
         "enablingConditions": [],
         "valueValidators": [
           {
             "type": "NON_EMPTY"
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "impression",
-        "type": "EQUALS"
+        ],
+        "displayName": "Content target",
+        "simpleValueType": true,
+        "name": "contentTargetImpression",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "linkSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "link"
+      }
+    ],
     "displayName": "Downloads and outlinks settings",
+    "name": "linkSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "linkAddress",
+        "valueValidators": [
+          {
+            "type": "NON_EMPTY"
+          }
+        ],
         "displayName": "Link address",
         "simpleValueType": true,
-        "valueValidators": [
-          {
-            "type": "NON_EMPTY"
-          }
-        ]
+        "name": "linkAddress",
+        "type": "TEXT"
       },
       {
-        "type": "SELECT",
-        "name": "linkType",
-        "displayName": "Link type",
         "macrosInSelect": false,
         "selectItems": [
           {
-            "value": "link",
-            "displayValue": "Link"
+            "displayValue": "Link",
+            "value": "link"
           },
           {
-            "value": "download",
-            "displayValue": "Download"
+            "displayValue": "Download",
+            "value": "download"
           }
         ],
+        "displayName": "Link type",
+        "defaultValue": "link",
         "simpleValueType": true,
-        "defaultValue": "link"
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "link",
-        "type": "EQUALS"
+        "name": "linkType",
+        "type": "SELECT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "delDimSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "deldimension"
+      }
+    ],
     "displayName": "Delete custom dimension settings",
+    "name": "delDimSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "delCustomDimensionID",
-        "displayName": "Custom dimension ID",
-        "simpleValueType": true,
         "valueValidators": [
           {
             "type": "NON_EMPTY"
@@ -922,34 +925,53 @@ ___TEMPLATE_PARAMETERS___
           {
             "type": "NUMBER"
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "deldimension",
-        "type": "EQUALS"
+        ],
+        "displayName": "Custom dimension ID",
+        "simpleValueType": true,
+        "name": "delCustomDimensionID",
+        "type": "TEXT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "customDimSettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "event"
+      },
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "goal"
+      },
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "search"
+      },
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "link"
+      },
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "setdimension"
+      }
+    ],
     "displayName": "Custom dimensions",
+    "name": "customDimSettings",
     "groupStyle": "NO_ZIPPY",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "PARAM_TABLE",
-        "name": "eventDimensions",
         "displayName": "Define custom dimensions to be set",
+        "name": "eventDimensions",
         "paramTableColumns": [
           {
             "param": {
-              "type": "TEXT",
-              "name": "dimensionId",
-              "displayName": "Dimension ID",
-              "simpleValueType": true,
               "valueValidators": [
                 {
                   "type": "POSITIVE_NUMBER"
@@ -957,453 +979,431 @@ ___TEMPLATE_PARAMETERS___
                 {
                   "type": "NON_EMPTY"
                 }
-              ]
+              ],
+              "displayName": "Dimension ID",
+              "simpleValueType": true,
+              "name": "dimensionId",
+              "type": "TEXT"
             },
             "isUnique": true
           },
           {
             "param": {
-              "type": "TEXT",
-              "name": "dimensionValue",
               "displayName": "Dimension value",
-              "simpleValueType": true
+              "simpleValueType": true,
+              "name": "dimensionValue",
+              "type": "TEXT"
             },
             "isUnique": false
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "event",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "goal",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "search",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "link",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "setdimension",
-        "type": "EQUALS"
+        ],
+        "type": "PARAM_TABLE"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "dataCollectionSettings",
-    "displayName": "Data collection",
-    "groupStyle": "ZIPPY_CLOSED",
-    "subParams": [
+    "enablingConditions": [
       {
-        "type": "CHECKBOX",
-        "name": "setUserID",
-        "checkboxText": "Set a user ID",
-        "simpleValueType": true,
-        "help": "If turned on, you\u0027ll recognize visitors by their user ID. A user ID can be a visitor\u0027s email, username or some other unique identifier. We store IDs under the dimension called user ID. You can use this dimension in custom reports, segments and filters."
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "init"
       },
       {
-        "type": "TEXT",
-        "name": "userID",
-        "displayName": "User ID",
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "pageview"
+      }
+    ],
+    "displayName": "Data collection",
+    "name": "dataCollectionSettings",
+    "groupStyle": "ZIPPY_CLOSED",
+    "type": "GROUP",
+    "subParams": [
+      {
+        "help": "If turned on, you\u0027ll recognize visitors by their user ID. A user ID can be a visitor\u0027s email, username or some other unique identifier. We store IDs under the dimension called user ID. You can use this dimension in custom reports, segments and filters.",
         "simpleValueType": true,
+        "name": "setUserID",
+        "checkboxText": "Set a user ID",
+        "type": "CHECKBOX"
+      },
+      {
         "enablingConditions": [
           {
             "paramName": "setUserID",
-            "paramValue": true,
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": true
           }
         ],
         "valueValidators": [
           {
-            "type": "NON_EMPTY",
-            "errorMessage": "Please provide a User ID. You can use a variable that stores the information."
+            "errorMessage": "Please provide a User ID. You can use a variable that stores the information.",
+            "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "displayName": "User ID",
+        "simpleValueType": true,
+        "name": "userID",
+        "type": "TEXT"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, you\u0027ll count outlinks and downloads. Outlinks are links that take the visitor outside your website. Downloads are links to all kind of files on your website. You\u0027ll see collected data under Analytics \u003e Reports \u003e Outlinks or Analytics \u003e Reports \u003e Downloads.",
+        "defaultValue": true,
+        "simpleValueType": true,
         "name": "enableLinkTracking",
         "checkboxText": "Outlinks and downloads",
-        "simpleValueType": true,
-        "help": "If turned on, you\u0027ll count outlinks and downloads. Outlinks are links that take the visitor outside your website. Downloads are links to all kind of files on your website. You\u0027ll see collected data under Analytics \u003e Reports \u003e Outlinks or Analytics \u003e Reports \u003e Downloads.",
-        "defaultValue": true
+        "type": "CHECKBOX"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, you\u0027ll count times when people see and interact with your popup or content. Impressions and interactions are counted for: (1) popups added under Tag Manager \u003e Tags \u003e Add new tag \u003e Custom popup, (2) content added under Tag Manager \u003e Tags \u003e Add new tag \u003e Custom content, (3) any page content you tag in your website\u0027s code.  You\u0027ll see collected data under Analytics \u003e Reports \u003e Content performance.",
+        "simpleValueType": true,
         "name": "enableContentTracking",
         "checkboxText": "Interactions with popups and content",
-        "simpleValueType": true,
-        "help": "If turned on, you\u0027ll count times when people see and interact with your popup or content. Impressions and interactions are counted for: (1) popups added under Tag Manager \u003e Tags \u003e Add new tag \u003e Custom popup, (2) content added under Tag Manager \u003e Tags \u003e Add new tag \u003e Custom content, (3) any page content you tag in your website\u0027s code.  You\u0027ll see collected data under Analytics \u003e Reports \u003e Content performance.",
+        "type": "CHECKBOX",
         "subParams": [
           {
-            "type": "RADIO",
-            "name": "contentTrackingOptions",
-            "radioItems": [
-              {
-                "value": "trackAllContentImpressions",
-                "displayValue": "Content loads on the page"
-              },
-              {
-                "value": "trackVisibleContentImpressions",
-                "displayValue": "Visitor sees the content"
-              }
-            ],
-            "simpleValueType": true,
             "enablingConditions": [
               {
                 "paramName": "enableContentTracking",
-                "paramValue": true,
-                "type": "EQUALS"
+                "type": "EQUALS",
+                "paramValue": true
+              }
+            ],
+            "simpleValueType": true,
+            "name": "contentTrackingOptions",
+            "type": "RADIO",
+            "radioItems": [
+              {
+                "displayValue": "Content loads on the page",
+                "value": "trackAllContentImpressions"
+              },
+              {
+                "displayValue": "Visitor sees the content",
+                "value": "trackVisibleContentImpressions"
               }
             ]
           }
         ]
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, you\u0027ll record all kinds of JavaScript errors on your website. The errors will be saved as custom events with the error type and the URL of the page where they occurred. You\u0027ll see them under Analytics \u003e Reports \u003e Custom events or if you create a custom report.",
+        "simpleValueType": true,
         "name": "enableJSErrorTracking",
         "checkboxText": "Detect JavaScript errors",
-        "simpleValueType": true,
-        "help": "If turned on, you\u0027ll record all kinds of JavaScript errors on your website. The errors will be saved as custom events with the error type and the URL of the page where they occurred. You\u0027ll see them under Analytics \u003e Reports \u003e Custom events or if you create a custom report."
+        "type": "CHECKBOX"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, you’ll measure the end of a session more accurately. Session time is the period between opening the first page and closing the last one, but it’s hard to know exactly when a visitor closes the last page. This option will send ping requests to check if a visitor is still on the last page.",
+        "simpleValueType": true,
         "name": "countSessionsPrecisely",
         "checkboxText": "Count session time precisely",
-        "simpleValueType": true,
-        "help": "If turned on, you’ll measure the end of a session more accurately. Session time is the period between opening the first page and closing the last one, but it’s hard to know exactly when a visitor closes the last page. This option will send ping requests to check if a visitor is still on the last page."
+        "type": "CHECKBOX"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, the visitor who goes from one website to the other will be recognized as the same visitor. Sessions that would be treated as separate for each website, will be treated as one session. This option works only for domains that use the same tracking code and are added under Administration \u003e Websites \u0026 apps \u003e URLs. We add the pk_vid parameter to the page URL to pass the visitor ID between domains.",
+        "simpleValueType": true,
         "name": "enableCrossDomainLinking",
         "checkboxText": "Recognize a visitor across domains",
-        "simpleValueType": true,
-        "help": "If turned on, the visitor who goes from one website to the other will be recognized as the same visitor. Sessions that would be treated as separate for each website, will be treated as one session. This option works only for domains that use the same tracking code and are added under Administration \u003e Websites \u0026 apps \u003e URLs. We add the pk_vid parameter to the page URL to pass the visitor ID between domains."
+        "type": "CHECKBOX"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, the visitor who goes from one subdomain to the other will be recognized as the same visitor. Sessions that would be treated as separate for each subdomain, will be treated as one session. This option works only for subdomains that use the same tracking code. You need to pick a domain where you\u0027ll store a cookie with the visitor ID.",
+        "simpleValueType": true,
         "name": "setCookieDomain",
         "checkboxText": "Recognize a visitor across subdomains",
-        "simpleValueType": true,
-        "help": "If turned on, the visitor who goes from one subdomain to the other will be recognized as the same visitor. Sessions that would be treated as separate for each subdomain, will be treated as one session. This option works only for subdomains that use the same tracking code. You need to pick a domain where you\u0027ll store a cookie with the visitor ID."
+        "type": "CHECKBOX"
       },
       {
-        "type": "TEXT",
-        "name": "cookieDomain",
-        "displayName": "Store a cookie on this domain",
-        "simpleValueType": true,
         "enablingConditions": [
           {
             "paramName": "setCookieDomain",
-            "paramValue": true,
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": true
           }
         ],
         "valueValidators": [
           {
-            "type": "NON_EMPTY",
-            "errorMessage": "Please provide a valid URL. It can contain wildcards."
+            "errorMessage": "Please provide a valid URL. It can contain wildcards.",
+            "type": "NON_EMPTY"
           }
-        ]
+        ],
+        "displayName": "Store a cookie on this domain",
+        "simpleValueType": true,
+        "name": "cookieDomain",
+        "type": "TEXT"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If checked, you\u0027ll see Google Tag Manager as a traffic source in Piwik PRO \u003e Analytics \u003e Settings \u003e Tracker debugger. (Available for 16.12+)",
+        "defaultValue": true,
+        "simpleValueType": true,
         "name": "setTrackingSource",
         "checkboxText": "Send the traffic source to the tracker debugger",
-        "simpleValueType": true,
-        "help": "If checked, you\u0027ll see Google Tag Manager as a traffic source in Piwik PRO \u003e Analytics \u003e Settings \u003e Tracker debugger. (Available for 16.12+)",
-        "defaultValue": true
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "init",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "pageview",
-        "type": "EQUALS"
+        "type": "CHECKBOX"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "privacySettings",
+    "enablingConditions": [
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "init"
+      },
+      {
+        "paramName": "trackingType",
+        "type": "EQUALS",
+        "paramValue": "pageview"
+      }
+    ],
     "displayName": "Privacy",
+    "name": "privacySettings",
     "groupStyle": "ZIPPY_CLOSED",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "SELECT",
-        "name": "ipCollectionMode",
+        "help": "Collect, mask or completely drop IP addresses. The level of IP address masking and geolocation data impact can be adjusted in the Piwik PRO Administration module under Privacy settings. Accepted variable values: collectIpAddresses, anonymizeIpAddresses, removeIpAddresses, followGCM.",
+        "macrosInSelect": true,
+        "selectItems": [
+          {
+            "displayValue": "Collect visitors’ IP addresses",
+            "value": "collectIpAddresses"
+          },
+          {
+            "displayValue": "Mask IP addresses",
+            "value": "anonymizeIpAddresses"
+          },
+          {
+            "displayValue": "Don\u0027t collect visitors’ IP addresses",
+            "value": "removeIpAddresses"
+          },
+          {
+            "displayValue": "Follow Google Consent Mode",
+            "value": "followGCM"
+          }
+        ],
         "displayName": "IP collection mode",
-        "help": "Collect, mask or completely drop IP addresses. The level of IP address masking and geolocation data impact can be adjusted in the Piwik PRO Administration module under Privacy settings. Accepted variable values: collectIpAddresses, anonymizeIpAddresses, removeIpAddresses.",
-        "macrosInSelect": true,
-        "defaultValue": collectIpAddresses,
-        "selectItems": [
-          {
-            "value": collectIpAddresses,
-            "displayValue": "Collect visitors’ IP addresses"
-          },
-          {
-            "value": anonymizeIpAddresses,
-            "displayValue": "Mask IP addresses"
-          },
-          {
-            "value": removeIpAddresses,
-            "displayValue": "Don't collect visitors’ IP addresses"
-          },
-          {
-            "value": "followGCM",
-            "displayValue": "Follow Google Consent Mode"
-          }
-        ],
+        "defaultValue": "collectIpAddresses",
+        "name": "ipCollectionMode",
+        "type": "SELECT"
       },
       {
-        "type": "SELECT",
-        "name": "useCookies",
+        "help": "If turned off, you won’t set visitor cookies like _pk_id.* and _pk_ses.* that are responsible for recognizing visitors and their sessions. Accepted variable values: true, false, followGCM",
+        "macrosInSelect": true,
+        "selectItems": [
+          {
+            "displayValue": "true",
+            "value": true
+          },
+          {
+            "displayValue": "false",
+            "value": false
+          },
+          {
+            "displayValue": "Follow Google Consent Mode",
+            "value": "followGCM"
+          }
+        ],
         "displayName": "Use visitor cookies",
-        "macrosInSelect": true,
-        "selectItems": [
-          {
-            "value": true,
-            "displayValue": "true"
-          },
-          {
-            "value": false,
-            "displayValue": "false"
-          },
-          {
-            "value": "followGCM",
-            "displayValue": "Follow Google Consent Mode"
-          }
-        ],
-        "simpleValueType": true,
         "defaultValue": true,
-        "help": "If turned off, you won’t set visitor cookies like _pk_id.* and _pk_ses.* that are responsible for recognizing visitors and their sessions."
+        "simpleValueType": true,
+        "name": "useCookies",
+        "type": "SELECT"
       },
       {
-        "type": "SELECT",
-        "name": "setSessionIdStrictPrivacyMode",
-        "displayName": "Don\u0027t collect visitor\u0027s device data",
+        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.). Accepted variable values: true, false, followGCM",
         "macrosInSelect": true,
         "selectItems": [
           {
-            "value": true,
-            "displayValue": "true"
+            "displayValue": "true",
+            "value": true
           },
           {
-            "value": false,
-            "displayValue": "false"
+            "displayValue": "false",
+            "value": false
           },
           {
-            "value": "followGCM",
-            "displayValue": "Follow Google Consent Mode"
+            "displayValue": "Follow Google Consent Mode",
+            "value": "followGCM"
           }
         ],
-        "simpleValueType": true,
+        "displayName": "Don\u0027t collect visitor\u0027s device data",
         "defaultValue": false,
-        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.)."
+        "simpleValueType": true,
+        "name": "setSessionIdStrictPrivacyMode",
+        "type": "SELECT"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, you’ll receive information from first-party cookies over a secure connection. Only websites with the HTTPS protocol will be able to access these cookies.",
+        "simpleValueType": true,
         "name": "setSecureCookie",
         "checkboxText": "Use secure cookies",
-        "simpleValueType": true,
-        "help": "If turned on, you’ll receive information from first-party cookies over a secure connection. Only websites with the HTTPS protocol will be able to access these cookies."
+        "type": "CHECKBOX"
       },
       {
-        "type": "CHECKBOX",
+        "help": "The visitor cookie (_pk_id.*) is removed after 13 months by default. You can delete it at a different time.",
+        "simpleValueType": true,
         "name": "setVisitorCookieTimeout",
         "checkboxText": "Remove the visitor cookie at custom time",
-        "simpleValueType": true,
-        "help": "The visitor cookie (_pk_id.*) is removed after 13 months by default. You can delete it at a different time."
+        "type": "CHECKBOX"
       },
       {
-        "type": "SELECT",
-        "name": "visitorCookieTimeout",
         "selectItems": [
           {
-            "value": 300,
-            "displayValue": "5 minutes"
+            "displayValue": "5 minutes",
+            "value": 300
           },
           {
-            "value": 600,
-            "displayValue": "10 minutes"
+            "displayValue": "10 minutes",
+            "value": 600
           },
           {
-            "value": 900,
-            "displayValue": "15 minutes"
+            "displayValue": "15 minutes",
+            "value": 900
           },
           {
-            "value": 1800,
-            "displayValue": "30 minutes"
+            "displayValue": "30 minutes",
+            "value": 1800
           },
           {
-            "value": 3600,
-            "displayValue": "1 hour"
+            "displayValue": "1 hour",
+            "value": 3600
           },
           {
-            "value": 86400,
-            "displayValue": "24 hours"
+            "displayValue": "24 hours",
+            "value": 86400
           },
           {
-            "value": 604800,
-            "displayValue": "1 week"
+            "displayValue": "1 week",
+            "value": 604800
           },
           {
-            "value": 2419200,
-            "displayValue": "1 month"
+            "displayValue": "1 month",
+            "value": 2419200
           },
           {
-            "value": 14515200,
-            "displayValue": "6 months"
+            "displayValue": "6 months",
+            "value": 14515200
           },
           {
-            "value": 29030400,
-            "displayValue": "12 months"
+            "displayValue": "12 months",
+            "value": 29030400
           },
           {
-            "value": 58060800,
-            "displayValue": "24 months"
+            "displayValue": "24 months",
+            "value": 58060800
           }
         ],
-        "simpleValueType": true,
         "enablingConditions": [
           {
             "paramName": "setVisitorCookieTimeout",
-            "paramValue": true,
-            "type": "EQUALS"
-          }
-        ]
-      },
-      {
-        "type": "CHECKBOX",
-        "name": "setSessionCookieTimeout",
-        "checkboxText": "Remove the session cookie at custom time",
-        "simpleValueType": true,
-        "help": "The session cookie (_pk_ses.*) is removed after 30 minutes by default. You can delete it at a different time."
-      },
-      {
-        "type": "SELECT",
-        "name": "sessionCookieTimeout",
-        "selectItems": [
-          {
-            "value": 300,
-            "displayValue": "5 minutes"
-          },
-          {
-            "value": 600,
-            "displayValue": "10 minutes"
-          },
-          {
-            "value": 900,
-            "displayValue": "15 minutes"
-          },
-          {
-            "value": 1800,
-            "displayValue": "30 minutes"
-          },
-          {
-            "value": 3600,
-            "displayValue": "1 hour"
-          },
-          {
-            "value": 86400,
-            "displayValue": "24 hours"
-          },
-          {
-            "value": 604800,
-            "displayValue": "1 week"
-          },
-          {
-            "value": 2419200,
-            "displayValue": "1 month"
-          },
-          {
-            "value": 14515200,
-            "displayValue": "6 months"
-          },
-          {
-            "value": 29030400,
-            "displayValue": "12 months"
-          },
-          {
-            "value": 58060800,
-            "displayValue": "24 months"
+            "type": "EQUALS",
+            "paramValue": true
           }
         ],
         "simpleValueType": true,
+        "name": "visitorCookieTimeout",
+        "type": "SELECT"
+      },
+      {
+        "help": "The session cookie (_pk_ses.*) is removed after 30 minutes by default. You can delete it at a different time.",
+        "simpleValueType": true,
+        "name": "setSessionCookieTimeout",
+        "checkboxText": "Remove the session cookie at custom time",
+        "type": "CHECKBOX"
+      },
+      {
+        "selectItems": [
+          {
+            "displayValue": "5 minutes",
+            "value": 300
+          },
+          {
+            "displayValue": "10 minutes",
+            "value": 600
+          },
+          {
+            "displayValue": "15 minutes",
+            "value": 900
+          },
+          {
+            "displayValue": "30 minutes",
+            "value": 1800
+          },
+          {
+            "displayValue": "1 hour",
+            "value": 3600
+          },
+          {
+            "displayValue": "24 hours",
+            "value": 86400
+          },
+          {
+            "displayValue": "1 week",
+            "value": 604800
+          },
+          {
+            "displayValue": "1 month",
+            "value": 2419200
+          },
+          {
+            "displayValue": "6 months",
+            "value": 14515200
+          },
+          {
+            "displayValue": "12 months",
+            "value": 29030400
+          },
+          {
+            "displayValue": "24 months",
+            "value": 58060800
+          }
+        ],
         "enablingConditions": [
           {
             "paramName": "setSessionCookieTimeout",
-            "paramValue": true,
-            "type": "EQUALS"
+            "type": "EQUALS",
+            "paramValue": true
           }
-        ]
-      }
-    ],
-    "enablingConditions": [
-      {
-        "paramName": "trackingType",
-        "paramValue": "init",
-        "type": "EQUALS"
-      },
-      {
-        "paramName": "trackingType",
-        "paramValue": "pageview",
-        "type": "EQUALS"
+        ],
+        "simpleValueType": true,
+        "name": "sessionCookieTimeout",
+        "type": "SELECT"
       }
     ]
   },
   {
-    "type": "GROUP",
-    "name": "otherOptions",
     "displayName": "Other options",
+    "name": "otherOptions",
     "groupStyle": "ZIPPY_CLOSED",
+    "type": "GROUP",
     "subParams": [
       {
-        "type": "TEXT",
-        "name": "customEventUrl",
+        "help": "Optionally define a custom URL to be tracked with this tag",
         "displayName": "Override event URL",
         "simpleValueType": true,
-        "help": "Optionally define a custom URL to be tracked with this tag"
+        "name": "customEventUrl",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "customEventTitle",
+        "help": "Overwrite document title. This and all events afterwards will use the provided document title.",
         "displayName": "Set a custom document title",
         "simpleValueType": true,
-        "help": "Overwrite document title. This and all events afterwards will use the provided document title."
+        "name": "customEventTitle",
+        "type": "TEXT"
       },
       {
-        "type": "TEXT",
-        "name": "customPageReferrer",
+        "help": "Define a custom page referrer. This and all events afterwards will use the provided referrer value.",
         "displayName": "Override page referrer",
         "simpleValueType": true,
-        "help": "Define a custom page referrer. This and all events afterwards will use the provided referrer value."
+        "name": "customPageReferrer",
+        "type": "TEXT"
       },
       {
-        "type": "CHECKBOX",
+        "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS.",
+        "simpleValueType": true,
         "name": "useAlternativeNamespace",
         "checkboxText": "Use an alternative namespace",
-        "simpleValueType": true,
-        "help": "If turned on, the tracking code won’t conflict with other tracking codes used on the website. We’ll change _paq to _ppas and Piwik to PPAS."
-      },
+        "type": "CHECKBOX"
+      }
     ]
   }
 ]
@@ -1446,9 +1446,10 @@ if (data.useAlternativeNamespace == true) {
   jsTracker = data.instanceURL + "/" + "ppms.js";
 }
 
-const gcmConsentGrantedCookies = (data.useCookies == "followGCM") ? isConsentGranted('analytics_storage') : true;
-const gcmConsentGrantedIp = (data.ipCollectionMode == "followGCM") ? isConsentGranted('analytics_storage') : true;
-const gcmConsentGrantedDeviceData = (data.setSessionIdStrictPrivacyMode == "followGCM") ? isConsentGranted('analytics_storage') : true;
+const analyticsGranted = isConsentGranted('analytics_storage');
+const gcmConsentGrantedCookies = (data.useCookies == "followGCM") ? analyticsGranted : true;
+const gcmConsentGrantedIp = (data.ipCollectionMode == "followGCM") ? analyticsGranted : true;
+const gcmConsentGrantedDeviceData = (data.setSessionIdStrictPrivacyMode == "followGCM") ? analyticsGranted : true;
 
 //prevent missing type from updated tags
 data.trackingType = data.trackingType || "pageview";
@@ -1704,9 +1705,7 @@ if (data.trackingType == 'event') {
 
   if (data.ipCollectionMode == "anonymizeIpAddresses") {
     _pp(['setUserIsAnonymous', 1]);
-  }
-
-  if (data.ipCollectionMode == "removeIpAddresses" || !gcmConsentGrantedIp) {
+  } else if (data.ipCollectionMode == "removeIpAddresses" || !gcmConsentGrantedIp) {
     _pp(['setIpTracking', false]);
   }
 
