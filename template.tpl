@@ -1148,13 +1148,6 @@ ___TEMPLATE_PARAMETERS___
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
-        "type": "CHECKBOX",
-        "name": "useConsentMode",
-        "checkboxText": "Follow Google Consent Mode",
-        "simpleValueType": true,
-        "help": "Check this option to let Consent Mode control cookie settings. If active, no cookies will be used and the tag will run in Strict Privacy Mode when fired without \"analytics_storage\""
-      },
-      {
         "type": "SELECT",
         "name": "ipCollectionMode",
         "displayName": "IP collection mode",
@@ -1193,14 +1186,7 @@ ___TEMPLATE_PARAMETERS___
         ],
         "simpleValueType": true,
         "defaultValue": true,
-        "help": "If turned off, you won’t set visitor cookies like _pk_id.* and _pk_ses.* that are responsible for recognizing visitors and their sessions.",
-        "enablingConditions": [
-          {
-            "paramName": "useConsentMode",
-            "paramValue": false,
-            "type": "EQUALS"
-          }
-        ]
+        "help": "If turned off, you won’t set visitor cookies like _pk_id.* and _pk_ses.* that are responsible for recognizing visitors and their sessions."
       },
       {
         "type": "SELECT",
@@ -1219,14 +1205,7 @@ ___TEMPLATE_PARAMETERS___
         ],
         "simpleValueType": true,
         "defaultValue": false,
-        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.).",
-        "enablingConditions": [
-          {
-            "paramName": "useConsentMode",
-            "paramValue": false,
-            "type": "EQUALS"
-          }
-        ]
+        "help": "When enabled tracker will not send information that can be used to fully or partially identify individual client browser even when persistent cookies are disabled. The information about browser that is blocked by this setting: screen resolution and installed browser plugins (e.g. PDF, Flash, Silverlight, Java, QuickTime, RealAudio, etc.)."
       },
       {
         "type": "CHECKBOX",
@@ -1680,7 +1659,7 @@ if (data.trackingType == 'event') {
   ********************/
 
   // Option to disable tracking cookies
-  if (data.useCookies == false || !gcmConsentGranted) {
+  if (data.useCookies == false) {
     _pp(['disableCookies']); 
   }
 
@@ -1774,7 +1753,7 @@ if (data.trackingType == 'event') {
   }
 
   // Setting the strict privacy option
-  _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true) || !gcmConsentGranted]);
+  _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true)]);
   
   // Link tracking
   if (data.enableLinkTracking == true) {
