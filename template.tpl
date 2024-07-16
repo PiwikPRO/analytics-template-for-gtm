@@ -1433,9 +1433,9 @@ const onFailure = () => {
 let _pp, jsTracker;
 data.instanceURL = data.instanceURL || "";
 
-if (data.instanceURL.indexOf('/', data.instanceURL.length - 1) !== -1) {
-  // Remove the trailing slash
-  data.instanceURL = data.instanceURL.slice(0, -1);
+let checkURL = data.instanceURL.replace("://", ":##");
+if (checkURL.indexOf("/") > 0) {
+    data.instanceURL = checkURL.split("/")[0].replace(":##", "://");
 }
 
 if (data.useAlternativeNamespace == true) {
