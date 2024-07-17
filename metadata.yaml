@@ -1,15 +1,20 @@
 homepage: "https://piwik.pro/"
-documentation: "https://help.piwik.pro/"
+documentation: "https://help.piwik.pro/support/getting-started/google-tag-manager-install-a-tracking-code/"
 versions:
   # Latest version
+  - sha: d479e4327bad542ca56e6fa66c6b8d2c6493f3e5
+    changeNotes: |2
+      Major release (2.0.0) - verify your setup after updating the template
+      Added support for additional events and custom dimensions
+      Improved privacy and data collection settings in the main tracking code
+      E-commerce events handling
+      Some options can now follow GCMv2 state
+  # Older versions
   - sha: 3d051c5c8605fad270cc1b311b1024f3e2925000
     changeNotes: Improved backwards compatibility with older product versions (<16.0).
-  # Third version
   - sha: 0205cc5e4bfbe532eac95da5bd1e21d8b744f00d
     changeNotes: Added the ability to recognize Google Tag Manager as a traffic source in Tracker debugger.
-  # Second version
   - sha: ca3be5c95ee5347f79c5d75d50cf6f2ba35f022e
     changeNotes: UX improvements.
-  # First version
   - sha: 2abe77c1a423cf0110531ef27b5aecf0eba91883
     changeNotes: Initial release.
