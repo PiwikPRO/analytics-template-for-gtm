@@ -24,9 +24,15 @@ The following changes and enhancements were intruduced since the initial templat
 
 The _"Use visitor cookies"_ option format was changed from checkbox to a drop-down including variables. This enables you to set this option depending on current consent.
 
-The new option to _"Don't collect visitor's device data"_ can be set in the same way, so the same tag can be used either with or without consent with dynamic pricacy settings.
+The new option to _"Don't collect visitor's device data"_ can be set in the same way, so the same tag can be used either with or without consent with dynamic privacy settings.
 
-Both options can be controlled by the Google Consent Mode flag `analytics_storage` when _"Follow Google Consent Mode"_ is activated. If active, the other two options are hidden and automatically set according to the current Consent Mode status when fired.
+A similar mechanism applies to the new IP collection mode setting. You can choose to:
+
+- Collect visitors’ IP addresses
+- Mask IP addresses
+- Don’t collect visitors’ IP addresses
+
+All 3 options can be controlled by the Google Consent Mode flag `analytics_storage` when _"Follow Google Consent Mode"_ is selected from the dropdown.
 
 ### Multiple "tracking types"
 
