@@ -2,6 +2,10 @@ homepage: "https://piwik.pro/"
 documentation: "https://help.piwik.pro/support/getting-started/google-tag-manager-install-a-tracking-code/"
 versions:
   # Latest version
+  - sha: a5351043c34b40af569e91ff3c13a424367d26cc
+    changeNotes: |2
+      2.0.1 - added custom dimension settings to virtual page view tag type
+  # Older versions
   - sha: d479e4327bad542ca56e6fa66c6b8d2c6493f3e5
     changeNotes: |2
       Major release (2.0.0) - verify your setup after updating the template
@@ -9,7 +13,6 @@ versions:
       Improved privacy and data collection settings in the main tracking code
       E-commerce events handling
       Some options can now follow GCMv2 state
-  # Older versions
   - sha: 3d051c5c8605fad270cc1b311b1024f3e2925000
     changeNotes: Improved backwards compatibility with older product versions (<16.0).
   - sha: 0205cc5e4bfbe532eac95da5bd1e21d8b744f00d
