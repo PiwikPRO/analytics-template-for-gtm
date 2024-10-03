@@ -959,6 +959,11 @@ ___TEMPLATE_PARAMETERS___
         "paramName": "trackingType",
         "type": "EQUALS",
         "paramValue": "setdimension"
+      },
+      {
+        "paramName": "trackingType",
+        "paramValue": "virtual",
+        "type": "EQUALS"
       }
     ],
     "displayName": "Custom dimensions",
