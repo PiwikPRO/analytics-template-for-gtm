@@ -1677,9 +1677,6 @@ if (data.trackingType == 'event') {
   if (data.useCookies == false || !gcmConsentGrantedCookies) {
     _pp(['disableCookies']); 
   }
-  else{
-	_pp(['enableCookies']);
-  }
 
   // Set secure cookie
   if (data.setSecureCookie == true) {
@@ -1701,12 +1698,7 @@ if (data.trackingType == 'event') {
   if (data.setReferralCookieTimeout == true) {
     _pp(['setReferralCookieTimeout', data.referralCookieTimeout]);
   }
-
-  // Setting the User ID
-  if (data.setUserID == true) {
-    let userId = data.userID;
-    _pp(['setUserId', userId]);
-  }
+  
   /********************
     IP Collection Handling
   ********************/
@@ -1715,9 +1707,6 @@ if (data.trackingType == 'event') {
     _pp(['setUserIsAnonymous', 1]);
   } else if (data.ipCollectionMode == "removeIpAddresses" || !gcmConsentGrantedIp) {
     _pp(['setIpTracking', false]);
-  }
-  else if (data.ipCollectionMode == true){
-	_pp(['deanonymizeUser']); 
   }
 
   /********************************
@@ -1770,16 +1759,14 @@ if (data.trackingType == 'event') {
     _pp(['setTrackingSource', 'gtm', '2.0.0']);
   }
 
+  // Setting the User ID
+  if (data.setUserID == true) {
+    let userId = data.userID;
+    _pp(['setUserId', userId]);
+  }
+
   // Setting the strict privacy option
-  if(data.setSessionIdStrictPrivacyMode == true || !gcmConsentGrantedDeviceData){
-    _pp(["deanonymizeUser"]);
-	_pp(['setSessionIdStrictPrivacyMode', true]);
-  }
-  else{
-    _pp(["setUserIsAnonymous", true]);
-    _pp(["resetUserId"]);
-	_pp(['setSessionIdStrictPrivacyMode', false]);
-  }
+  _pp(['setSessionIdStrictPrivacyMode', (data.setSessionIdStrictPrivacyMode == true) || !gcmConsentGrantedDeviceData]);
   
   // Link tracking
   if (data.enableLinkTracking == true) {
