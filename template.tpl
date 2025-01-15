@@ -608,6 +608,7 @@ ___TEMPLATE_PARAMETERS___
         ]
       },
       {
+        "help": "Enter a JS or dataLayer variable that contains a currency code",
         "type": "TEXT",
         "name": "currencyCode",
         "displayName": "Currency code",
@@ -1493,9 +1494,13 @@ if (data.trackingType == 'event') {
   data.gtmOnSuccess();
 
 } else if (data.trackingType == 'goal') {
-
+  const settings = {};
+  if (data.currencyCode) {
+    settings.currencyCode = data.currencyCode;
+  }
+  
   //track goal and optional revenue
-  _pp(['trackGoal', data.goalId, data.conversionValue, eventDimensions]);
+  _pp(['trackGoal', data.goalId, data.conversionValue, eventDimensions, settings]);
   data.gtmOnSuccess();
 
 } else if (data.trackingType == 'ecom') {
