@@ -606,6 +606,12 @@ ___TEMPLATE_PARAMETERS___
             "type": "TEXT"
           }
         ]
+      },
+      {
+        "type": "TEXT",
+        "name": "currencyCode",
+        "displayName": "Currency code",
+        "simpleValueType": true
       }
     ]
   },
@@ -1497,7 +1503,10 @@ if (data.trackingType == 'event') {
    
   var ecProducts = [],
       ecPaymentData,
-      ecType = data.ecomType;
+      ecType = data.ecomType,
+      ecSettings = {};
+  
+  
   
   //detect type from dataLayer? 
   if (ecType === "ecommerceAutoDetect") {
@@ -1509,6 +1518,10 @@ if (data.trackingType == 'event') {
       case 'remove_from_cart': ecType = "ecommerceRemoveFromCart"; break;
       case 'purchase': ecType = "ecommerceOrder"; break;
       default: ecType = "none"; break;
+    }
+    
+    if (typeof dlEcommerce.currency === "string") {
+      ecSettings.currencyCode = dlEcommerce.currency;
     }
     
     var convProducts;
@@ -1596,12 +1609,16 @@ if (data.trackingType == 'event') {
     });         
   }
   
+  if (data.currencyCode) {
+    ecSettings.currencyCode = data.currencyCode;
+  }
+  
   //ecommerce events by type
   switch (ecType) {
-    case 'ecommerceProductDetailView':_pp(['ecommerceProductDetailView', ecProducts]); break;
-    case 'ecommerceAddToCart':_pp(['ecommerceAddToCart', ecProducts]); break;
-    case 'ecommerceRemoveFromCart':_pp(['ecommerceRemoveFromCart', ecProducts]); break;
-    case 'ecommerceCartUpdate':_pp(['ecommerceCartUpdate', ecProducts, data.ecommerceUpdateTotal||0]); break;
+    case 'ecommerceProductDetailView':_pp(['ecommerceProductDetailView', ecProducts, ecSettings]); break;
+    case 'ecommerceAddToCart':_pp(['ecommerceAddToCart', ecProducts, ecSettings]); break;
+    case 'ecommerceRemoveFromCart':_pp(['ecommerceRemoveFromCart', ecProducts, ecSettings]); break;
+    case 'ecommerceCartUpdate':_pp(['ecommerceCartUpdate', ecProducts, data.ecommerceUpdateTotal||0, ecSettings]); break;
     case 'ecommerceOrder':
       ecPaymentData = ecPaymentData || {
         orderId: data.orderId,
@@ -1611,7 +1628,7 @@ if (data.trackingType == 'event') {
         shipping: data.shipping||0,
         discount: data.discount||0
       };
-      _pp(['ecommerceOrder', ecProducts, ecPaymentData]); 
+      _pp(['ecommerceOrder', ecProducts, ecPaymentData, ecSettings]); 
       break;
   }
   data.gtmOnSuccess();
