@@ -1301,7 +1301,8 @@ ___TEMPLATE_PARAMETERS___
         ],
         "simpleValueType": true,
         "name": "visitorCookieTimeout",
-        "type": "SELECT"
+        "type": "SELECT",
+        "macrosInSelect": true
       },
       {
         "help": "The session cookie (_pk_ses.*) is removed after 30 minutes by default. You can delete it at a different time.",

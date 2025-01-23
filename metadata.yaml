@@ -2,6 +2,8 @@ homepage: "https://piwik.pro/"
 documentation: "https://help.piwik.pro/support/getting-started/google-tag-manager-install-a-tracking-code/"
 versions:
   # Latest version
+  - sha: 16e6363f35a1e5bea2ca305522c34e1d0022e75c
+    changeNotes: Added variable input to visitor cookie custom timeout.
   - sha: d479e4327bad542ca56e6fa66c6b8d2c6493f3e5
     changeNotes: |2
       Major release (2.0.0) - verify your setup after updating the template
