@@ -2,6 +2,8 @@ homepage: "https://piwik.pro/"
 documentation: "https://help.piwik.pro/support/getting-started/google-tag-manager-install-a-tracking-code/"
 versions:
   # Latest version
+  - sha: 30f638cb89f47de3dd7e8e8b73c4b8e7d5f138b3
+    changeNotes: Added the currency conversion support.
   - sha: 16e6363f35a1e5bea2ca305522c34e1d0022e75c
     changeNotes: Added variable input to visitor cookie custom timeout.
   - sha: d479e4327bad542ca56e6fa66c6b8d2c6493f3e5
