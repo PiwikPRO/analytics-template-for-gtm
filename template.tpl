@@ -1779,7 +1779,7 @@ if (data.trackingType == 'event') {
 
   // Traffic source tracking
   if (data.setTrackingSource == true) {
-    _pp(['setTrackingSource', 'gtm', '2.0.0']);
+    _pp(['setTrackingSource', 'gtm', '2.1.0']);
   }
 
   // Setting the User ID
